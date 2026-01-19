@@ -34,11 +34,16 @@ jobs:
     - name: Fix Documentation Config
       run: |
         cd .verify-helper/markdown
+        rm -f .nojekyll
         
         echo "title: CP-Library" > _config.yml
         echo "theme: jekyll-theme-minimal" >> _config.yml
-        echo "description: My Competitive Programming Library" >> _config.yml
+        echo "enable_mathjax: true" >> _config.yml
         
+        echo "plugins:" >> _config.yml
+        echo "  - jemoji" >> _config.yml
+        
+        echo "description: Competitive Programming Library" >> _config.yml
         echo "url: 'https://joji0.github.io'" >> _config.yml
         echo "baseurl: '/CP-Library'" >> _config.yml
         
