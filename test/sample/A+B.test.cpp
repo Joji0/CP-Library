@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
-#include "../../library/sample/A+B.hpp"
+#include "sample/A+B.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
