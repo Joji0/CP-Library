@@ -2,6 +2,7 @@
 title: Barrett Reduction
 documentation_of: mod/barrett.hpp
 ---
+
 # Barrett Reduction
 
 Barrett Reduction is used to do modular arithmetic for some non-constant modulo fast. This requires some mathematical observation which can be seen in [Wikipedia](https://en.wikipedia.org/wiki/Barrett_reduction). The implementation used here is due to [Maspy](https://maspypy.github.io/library/mod/barrett.hpp) and [ACL](https://github.com/atcoder/ac-library/blob/master/atcoder/internal_math.hpp). 
