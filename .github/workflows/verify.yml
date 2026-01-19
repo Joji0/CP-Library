@@ -7,7 +7,7 @@ on:
   pull_request:
 
 permissions:
-  contents: write 
+  contents: write
 
 jobs:
   verify:
@@ -31,13 +31,31 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: oj-verify all
 
+    - name: Fix Documentation Config
+      run: |
+        cd .verify-helper/markdown
+        
+        rm -f .nojekyll
+        
+        echo "title: CP-Library" > _config.yml
+        echo "theme: jekyll-theme-minimal" >> _config.yml
+        echo "description: My Competitive Programming Library" >> _config.yml
+        
+        echo "url: 'https://joji0.github.io'" >> _config.yml
+        echo "baseurl: '/CP-Library'" >> _config.yml
+        
+        if [ ! -f index.md ]; then
+          echo "Copying README to index.md..."
+          cp ../../README.md index.md
+        fi
+
     - name: Deploy to GitHub Pages
       if: success() && github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .verify-helper/markdown 
+        publish_dir: .verify-helper/markdown
         keep_files: false
-        force_orphan: true 
+        force_orphan: true
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
