@@ -35,8 +35,6 @@ jobs:
       run: |
         cd .verify-helper/markdown
         
-        rm -f .nojekyll
-        
         echo "title: CP-Library" > _config.yml
         echo "theme: jekyll-theme-minimal" >> _config.yml
         echo "description: My Competitive Programming Library" >> _config.yml
@@ -57,5 +55,6 @@ jobs:
         publish_dir: .verify-helper/markdown
         keep_files: false
         force_orphan: true
+        enable_jekyll: true  
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
