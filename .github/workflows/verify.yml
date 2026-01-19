@@ -3,8 +3,11 @@ name: verify
 on:
   push:
     branches:
-      - main 
+      - main
   pull_request:
+
+permissions:
+  contents: write 
 
 jobs:
   verify:
@@ -23,7 +26,18 @@ jobs:
     - name: Install dependencies
       run: pip3 install -U online-judge-verify-helper
 
-    - name: Run tests
+    - name: Run tests (Generate Docs)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: oj-verify all
+
+    - name: Deploy to GitHub Pages
+      if: success() && github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .verify-helper/markdown 
+        keep_files: false
+        force_orphan: true 
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
