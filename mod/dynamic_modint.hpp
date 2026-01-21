@@ -1,37 +1,39 @@
 #pragma once
+#include "mod/barrett.hpp"
 #include <cassert>
 #include <cstdint>
 #include <iostream>
 #include <utility>
 
 template <int id> struct DynamicModInt {
-        static inline uint32_t MOD = 998244353;
+        static inline Barrett MOD = Barrett(998244353);
         uint32_t val;
         static void set_mod(uint32_t m) {
                 assert(m > 0);
-                MOD = m;
+                MOD = Barrett(m);
         }
-        static uint32_t get_mod() { return MOD; }
+        static uint32_t get_mod() { return MOD.umod(); }
         DynamicModInt() : val(0) {}
-        DynamicModInt(const int64_t &x) : val(x >= 0 ? x % MOD : (MOD - (-x) % MOD) % MOD) {}
+        DynamicModInt(const int64_t &x)
+            : val(x >= 0 ? x % MOD.umod() : (MOD.umod() - (-x) % MOD.umod()) % MOD.umod()) {}
         uint32_t value() const { return val; }
         DynamicModInt &operator+=(const DynamicModInt &rhs) {
                 val += rhs.val;
-                if (val >= MOD) val -= MOD;
+                if (val >= MOD.umod()) val -= MOD.umod();
                 return *this;
         }
         DynamicModInt &operator-=(const DynamicModInt &rhs) {
-                if (val < rhs.val) val += MOD;
+                if (val < rhs.val) val += MOD.umod();
                 val -= rhs.val;
                 return *this;
         }
         DynamicModInt &operator*=(const DynamicModInt &rhs) {
-                val = (uint64_t)val * rhs.val % MOD;
+                val = MOD.mul(val, rhs.val);
                 return *this;
         }
         DynamicModInt &operator/=(const DynamicModInt &rhs) { return *this *= rhs.inverse(); }
         DynamicModInt operator+() const { return *this; }
-        DynamicModInt operator-() const { return DynamicModInt(val == 0 ? 0 : MOD - val); }
+        DynamicModInt operator-() const { return DynamicModInt(val == 0 ? 0 : MOD.umod() - val); }
         friend DynamicModInt operator+(DynamicModInt lhs, const DynamicModInt &rhs) { return lhs += rhs; }
         friend DynamicModInt operator-(DynamicModInt lhs, const DynamicModInt &rhs) { return lhs -= rhs; }
         friend DynamicModInt operator*(DynamicModInt lhs, const DynamicModInt &rhs) { return lhs *= rhs; }
@@ -48,7 +50,7 @@ template <int id> struct DynamicModInt {
                 return res;
         }
         DynamicModInt inverse() const {
-                int64_t a = val, b = MOD, u = 1, v = 0;
+                int64_t a = val, b = MOD.umod(), u = 1, v = 0;
                 while (b) {
                         int64_t t = a / b;
                         a -= t * b;

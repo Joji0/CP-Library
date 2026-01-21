@@ -27,5 +27,5 @@ struct Barrett {
                 if (z < y) return {x - 1, z - y + mod};
                 return {x, z - y};
         }
-        uint32_t mul(uint32_t a, uint32_t b) { return modulo((uint64_t)(a)*b); }
+        uint32_t mul(uint32_t a, uint32_t b) const { return modulo((uint64_t)(a)*b); }
 };
