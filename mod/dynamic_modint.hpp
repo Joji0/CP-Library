@@ -12,7 +12,7 @@ template <int id> struct DynamicModInt {
                 assert(m > 0);
                 MOD = Barrett(m);
         }
-        static uint32_t get_mod() { return MOD.umod(); }
+        static uint32_t mod() { return MOD.umod(); }
         DynamicModInt() : val(0) {}
         DynamicModInt(const int64_t &x)
             : val(x >= 0 ? x % MOD.umod() : (MOD.umod() - (-x) % MOD.umod()) % MOD.umod()) {}

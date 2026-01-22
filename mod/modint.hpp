@@ -6,6 +6,7 @@
 template <uint32_t MOD> struct ModInt {
         static_assert(MOD > 1, "MOD must be > 1");
         uint32_t val;
+        static uint32_t mod() { return MOD; }
         constexpr ModInt() : val(0) {}
         constexpr ModInt(const int64_t &x) : val(x >= 0 ? x % MOD : (MOD - (-x) % MOD) % MOD) {}
         constexpr uint32_t value() const { return val; }
