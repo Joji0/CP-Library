@@ -96,7 +96,7 @@ template <typename Mint> struct Combinatorics {
                 if (n == 0 && k == 0) return Mint(1);
                 return C(n + k - 1, k);
         }
-        static Mint stars_and_bars(long long n, long long k, bool allow_empty = true) {
+        static Mint stars_and_bars(int64_t n, int64_t k, bool allow_empty = true) {
                 if (k <= 0) return (n == 0 && k == 0) ? Mint(1) : Mint(0);
                 if (allow_empty) {
                         return C(n + k - 1, k - 1);
@@ -111,7 +111,7 @@ template <typename Mint> struct Combinatorics {
         }
         static Mint multinomial(int n, const std::vector<int> &ks) {
                 if (n < 0) return Mint(0);
-                long long sum = 0;
+                int64_t sum = 0;
                 Mint denom(1);
                 for (int k : ks) {
                         if (k < 0) return Mint(0);
