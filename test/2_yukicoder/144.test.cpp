@@ -1,4 +1,5 @@
 #define PROBLEM "https://yukicoder.me/problems/no/144"
+#define ERROR 1e-6
 #include "nt/sieve.hpp"
 #include <bits/stdc++.h>
 
