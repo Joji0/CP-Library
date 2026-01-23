@@ -1,3 +1,4 @@
+#define PROBLEM "https://yukicoder.me/problems/no/144"
 #include "nt/sieve.hpp"
 #include <bits/stdc++.h>
 
