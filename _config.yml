@@ -1,0 +1,8 @@
+title: CP-Library
+theme: jekyll-theme-minimal
+enable_mathjax: true
+plugins:
+  - jemoji
+description: Competitive Programming Library
+url: 'https://joji0.github.io'
+baseurl: '/CP-Library'
