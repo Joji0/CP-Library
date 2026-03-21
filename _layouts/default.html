@@ -13,6 +13,8 @@
     (function() {
       var t = localStorage.getItem('cp-lib-theme') || 'dark';
       document.documentElement.setAttribute('data-theme', t);
+      var s = localStorage.getItem('cp-lib-sidebar');
+      if (s === 'collapsed') document.documentElement.classList.add('sidebar-collapsed');
     })();
   </script>
 </head>
@@ -21,41 +23,36 @@
   <!-- Header -->
   <header class="site-header">
     <div class="header-left">
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M2.5 4.5h13M2.5 9h13M2.5 13.5h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
       <a href="{{ '/' | relative_url }}" class="logo">
-        <div class="logo-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M13.325 3.05L8.667 20.432M15.333 3.568l4.667 7.894-4.667 7.894M4 19.356L8.667 11.462 4 3.568" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <div class="logo-icon">&lt;/&gt;</div>
         <span class="logo-text">CP-Library</span>
-        <span class="logo-badge">v1.0</span>
       </a>
     </div>
     <div class="header-right">
       <div class="search-box" id="searchBox">
-        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none">
           <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
           <path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <input type="text" id="searchInput" placeholder="Search docs..." autocomplete="off">
+        <input type="text" id="searchInput" placeholder="Search..." autocomplete="off">
         <kbd class="search-kbd">/</kbd>
       </div>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none">
           <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none">
           <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <a href="https://github.com/joji0/CP-Library" class="github-link" target="_blank" aria-label="GitHub">
-        <svg height="22" width="22" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      <a href="https://github.com/joji0/CP-Library" class="header-btn" target="_blank" aria-label="GitHub">
+        <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       </a>
     </div>
   </header>
@@ -72,17 +69,17 @@
 
   <!-- Main -->
   <main class="main-content">
-    <article class="doc-content">
-      {{ content }}
-    </article>
+    <div class="content-wrapper">
+      <article class="doc-content">
+        {{ content }}
+      </article>
 
-    <footer class="site-footer">
-      <div class="footer-inner">
+      <footer class="site-footer">
         <span>Built by <a href="https://github.com/joji0">joji0</a></span>
         <span class="footer-dot"></span>
         <span>Powered by Jekyll</span>
-      </div>
-    </footer>
+      </footer>
+    </div>
   </main>
 
   <!-- Search Results -->
@@ -104,27 +101,35 @@
 
   <script>
     // ===== Theme Toggle =====
-    (function() {
-      var toggle = document.getElementById('themeToggle');
-      toggle.addEventListener('click', function() {
-        var cur = document.documentElement.getAttribute('data-theme');
-        var next = cur === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('cp-lib-theme', next);
-      });
-    })();
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('cp-lib-theme', next);
+    });
 
-    // ===== Mobile Sidebar =====
+    // ===== Sidebar Toggle (desktop + mobile) =====
     (function() {
-      var btn = document.getElementById('menuToggle');
-      var sidebar = document.getElementById('sidebar');
+      var btn = document.getElementById('sidebarToggle');
       var overlay = document.getElementById('sidebarOverlay');
-      function toggle() {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('active');
-      }
-      btn.addEventListener('click', toggle);
-      overlay.addEventListener('click', toggle);
+      var html = document.documentElement;
+
+      btn.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          // Mobile: slide in/out
+          document.getElementById('sidebar').classList.toggle('open');
+          overlay.classList.toggle('active');
+        } else {
+          // Desktop: collapse/expand, content stays centered
+          html.classList.toggle('sidebar-collapsed');
+          localStorage.setItem('cp-lib-sidebar', html.classList.contains('sidebar-collapsed') ? 'collapsed' : 'open');
+        }
+      });
+
+      overlay.addEventListener('click', function() {
+        document.getElementById('sidebar').classList.remove('open');
+        overlay.classList.remove('active');
+      });
     })();
 
     // ===== Highlight Active Sidebar Link =====
@@ -164,13 +169,9 @@
 
       document.addEventListener('keydown', function(e) {
         if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-          e.preventDefault();
-          input.focus();
+          e.preventDefault(); input.focus();
         }
-        if (e.key === 'Escape') {
-          input.blur();
-          results.classList.remove('visible');
-        }
+        if (e.key === 'Escape') { input.blur(); results.classList.remove('visible'); }
       });
 
       input.addEventListener('input', function() {
@@ -187,12 +188,8 @@
         results.classList.add('visible');
       });
 
-      input.addEventListener('blur', function() {
-        setTimeout(function() { results.classList.remove('visible'); }, 200);
-      });
-      input.addEventListener('focus', function() {
-        if (this.value.trim()) results.classList.add('visible');
-      });
+      input.addEventListener('blur', function() { setTimeout(function() { results.classList.remove('visible'); }, 200); });
+      input.addEventListener('focus', function() { if (this.value.trim()) results.classList.add('visible'); });
     })();
 
     // ===== Copy Code Buttons =====

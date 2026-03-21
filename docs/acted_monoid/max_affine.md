@@ -11,8 +11,8 @@ ActedMonoid for lazy segment tree supporting **range affine transformation** $x 
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| $S$ | `long long` | Max value |
-| $F$ | `struct {long long a, b;}` | Affine: $x \mapsto ax + b$ |
+| $S$ | `int64_t` | Max value |
+| $F$ | `struct {int64_t a, b;}` | Affine: $x \mapsto ax + b$ |
 | $\mathrm{op}(a, b)$ | $\max(a, b)$ | Merge |
 | $e$ | $-10^{18}$ | Identity |
 | $\mathrm{mapping}(f, x)$ | $f_a \cdot x + f_b$ | Apply affine |
@@ -27,9 +27,29 @@ ActedMonoid for lazy segment tree supporting **range affine transformation** $x 
 #include "acted_monoid/max_affine.hpp"
 #include "ds/segtree/lazy_segtree.hpp"
 
-std::vector<long long> a = {3, 1, 4};
+std::vector<int64_t> a = {3, 1, 4};
 LazySegTree<MaxAffine> seg(a);
 
 seg.update(0, 2, MaxAffine::F{2, 1}); // 2x+1
 seg.query(0, 2);                       // 9 (max of 7,3,9)
+```
+
+## Source Code
+
+```cpp
+#pragma once
+#include <algorithm>
+
+struct MaxAffine {
+	using S = int64_t;
+	struct F {
+		int64_t a, b;
+	};
+	static S op(S a, S b) { return std::max(a, b); }
+	static S e() { return -(int64_t)1e18; }
+	static S mapping(F f, S x) { return f.a * x + f.b; }
+	static F composition(F f, F g) { return {f.a * g.a, f.a * g.b + f.b}; }
+	static F id() { return {1, 0}; }
+};
+
 ```

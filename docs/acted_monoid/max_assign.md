@@ -13,8 +13,8 @@ Uses `LLONG_MIN` as a sentinel for "no assignment".
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| $S$ | `long long` | Max value |
-| $F$ | `long long` | Assign value (`LLONG_MIN` = no-op) |
+| $S$ | `int64_t` | Max value |
+| $F$ | `int64_t` | Assign value (`LLONG_MIN` = no-op) |
 | $\mathrm{op}(a, b)$ | $\max(a, b)$ | Merge |
 | $e$ | $-10^{18}$ | Identity |
 | $\mathrm{mapping}(f, x)$ | $f = \mathrm{NONE}$ ? $x$ : $f$ | Assign |
@@ -27,9 +27,29 @@ Uses `LLONG_MIN` as a sentinel for "no assignment".
 #include "acted_monoid/max_assign.hpp"
 #include "ds/segtree/lazy_segtree.hpp"
 
-std::vector<long long> a = {3, 1, 4, 1, 5};
+std::vector<int64_t> a = {3, 1, 4, 1, 5};
 LazySegTree<MaxAssign> seg(a);
 
 seg.update(0, 2, 10LL); // assign 10 to [0..2]
 seg.query(0, 4);         // 10
+```
+
+## Source Code
+
+```cpp
+#pragma once
+#include <algorithm>
+#include <climits>
+
+struct MaxAssign {
+	using S = int64_t;
+	using F = int64_t;
+	static constexpr F NONE = LLONG_MIN;
+	static S op(S a, S b) { return std::max(a, b); }
+	static S e() { return -(int64_t)1e18; }
+	static S mapping(F f, S x) { return f == NONE ? x : f; }
+	static F composition(F f, F g) { return f == NONE ? g : f; }
+	static F id() { return NONE; }
+};
+
 ```

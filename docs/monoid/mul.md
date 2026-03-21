@@ -11,7 +11,7 @@ Monoid for **range product** queries on a segment tree.
 
 | Property | Value |
 |----------|-------|
-| Set $S$ | `long long` |
+| Set $S$ | `int64_t` |
 | Operation $\cdot$ | $a \times b$ |
 | Identity $e$ | $1$ |
 
@@ -24,4 +24,17 @@ Monoid for **range product** queries on a segment tree.
 #include "ds/segtree/segtree.hpp"
 
 SegTree<MulMonoid> seg(n); // range product, point update
+```
+
+## Source Code
+
+```cpp
+#pragma once
+
+struct MulMonoid {
+	using value_type = int64_t;
+	static value_type e() { return 1; }
+	static value_type op(value_type a, value_type b) { return a * b; }
+};
+
 ```

@@ -1,11 +1,12 @@
 #pragma once
+#include <cstdint>
 
 struct SumAdd {
 	struct S {
-		long long val;
+		int64_t val;
 		int cnt;
 	};
-	using F = long long;
+	using F = int64_t;
 	static S op(S a, S b) { return {a.val + b.val, a.cnt + b.cnt}; }
 	static S e() { return {0, 0}; }
 	static S mapping(F f, S x) { return {x.val + f * x.cnt, x.cnt}; }

@@ -1,12 +1,13 @@
 #pragma once
+#include <cstdint>
 
 struct SumAffine {
 	struct S {
-		long long val;
+		int64_t val;
 		int cnt;
 	};
 	struct F {
-		long long a, b;
+		int64_t a, b;
 	};
 	static S op(S x, S y) { return {x.val + y.val, x.cnt + y.cnt}; }
 	static S e() { return {0, 0}; }
