@@ -59,7 +59,11 @@ jobs:
         mkdir -p "$DEST/docs"
         cp -r docs/* "$DEST/docs/" 2>/dev/null || true
 
-        # Build Jekyll locally (--safe is off so Liquid errors don't stop build)
+        # Remove oj-verify generated .hpp.md files (contain raw C++ with {{ }} that breaks Liquid)
+        find "$DEST" -name '*.hpp.md' -delete
+        find "$DEST" -name '*.test.cpp.md' -delete
+
+        # Build Jekyll locally
         cd "$DEST"
         JEKYLL_ENV=production jekyll build --destination _site
 
