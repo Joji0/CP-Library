@@ -7,22 +7,8 @@ render_with_liquid: true
 <div class="hero">
   <h1>CP-Library</h1>
   <p class="hero-subtitle">
-    Header-only C++ library for competitive programming. Well-tested, documented in ACL style.
+    Header-only C++ library for competitive programming.<br>Well-tested, documented in ACL style.
   </p>
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="stat-value">32</div>
-      <div class="stat-label">Templates</div>
-    </div>
-    <div class="hero-stat">
-      <div class="stat-value">6</div>
-      <div class="stat-label">Categories</div>
-    </div>
-    <div class="hero-stat">
-      <div class="stat-value">O(log n)</div>
-      <div class="stat-label">Per Query</div>
-    </div>
-  </div>
 </div>
 
 <div class="category-grid">
