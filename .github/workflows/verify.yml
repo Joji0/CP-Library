@@ -47,9 +47,10 @@ jobs:
         # Remove oj-verify's Gemfile and config so they don't interfere
         rm -f "$DEST/_config.yml" "$DEST/.nojekyll" "$DEST/Gemfile" "$DEST/Gemfile.lock"
 
-        # Copy our custom theme files
+        # Copy our custom theme files (remove target dirs first to avoid nesting)
         cp _config.yml "$DEST/_config.yml"
         cp index.md "$DEST/index.md"
+        rm -rf "$DEST/_layouts" "$DEST/_includes" "$DEST/assets"
         cp -r _layouts "$DEST/_layouts"
         cp -r _includes "$DEST/_includes"
         cp -r assets "$DEST/assets"
@@ -58,9 +59,9 @@ jobs:
         mkdir -p "$DEST/docs"
         cp -r docs/* "$DEST/docs/" 2>/dev/null || true
 
-        # Build Jekyll locally
+        # Build Jekyll locally (--safe is off so Liquid errors don't stop build)
         cd "$DEST"
-        jekyll build --destination _site
+        JEKYLL_ENV=production jekyll build --destination _site
 
         # Prevent GitHub Pages from running Jekyll again
         touch _site/.nojekyll
