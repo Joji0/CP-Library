@@ -44,8 +44,8 @@ jobs:
       run: |
         DEST=.verify-helper/markdown
 
-        # Remove old config and nojekyll
-        rm -f "$DEST/_config.yml" "$DEST/.nojekyll"
+        # Remove oj-verify's Gemfile and config so they don't interfere
+        rm -f "$DEST/_config.yml" "$DEST/.nojekyll" "$DEST/Gemfile" "$DEST/Gemfile.lock"
 
         # Copy our custom theme files
         cp _config.yml "$DEST/_config.yml"
