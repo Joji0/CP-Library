@@ -32,11 +32,19 @@ jobs:
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
       run: oj-verify all
 
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.2'
+
+    - name: Install Jekyll
+      run: gem install jekyll kramdown-parser-gfm rouge
+
     - name: Build site with custom theme
       run: |
         DEST=.verify-helper/markdown
 
-        # Remove old config
+        # Remove old config and nojekyll
         rm -f "$DEST/_config.yml" "$DEST/.nojekyll"
 
         # Copy our custom theme files
@@ -46,17 +54,24 @@ jobs:
         cp -r _includes "$DEST/_includes"
         cp -r assets "$DEST/assets"
 
-        # Copy docs that verify-helper didn't generate
+        # Copy our docs (overwrite verify-helper generated ones)
+        mkdir -p "$DEST/docs"
         cp -r docs/* "$DEST/docs/" 2>/dev/null || true
+
+        # Build Jekyll locally
+        cd "$DEST"
+        jekyll build --destination _site
+
+        # Prevent GitHub Pages from running Jekyll again
+        touch _site/.nojekyll
 
     - name: Deploy to GitHub Pages
       if: success() && github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .verify-helper/markdown
+        publish_dir: .verify-helper/markdown/_site
         keep_files: false
         force_orphan: true
-        enable_jekyll: true
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
