@@ -1,6 +1,7 @@
 ---
 title: Matrix
 documentation_of: ds/matrix.hpp
+render_with_liquid: false
 ---
 
 # Matrix
