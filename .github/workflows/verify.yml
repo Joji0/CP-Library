@@ -32,26 +32,22 @@ jobs:
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
       run: oj-verify all
 
-    - name: Fix Documentation Config
+    - name: Build site with custom theme
       run: |
-        cd .verify-helper/markdown
-        rm -f .nojekyll
-        
-        echo "title: CP-Library" > _config.yml
-        echo "theme: jekyll-theme-minimal" >> _config.yml
-        echo "enable_mathjax: true" >> _config.yml
-        
-        echo "plugins:" >> _config.yml
-        echo "  - jemoji" >> _config.yml
-        
-        echo "description: Competitive Programming Library" >> _config.yml
-        echo "url: 'https://joji0.github.io'" >> _config.yml
-        echo "baseurl: '/CP-Library'" >> _config.yml
-        
-        if [ ! -f index.md ]; then
-          echo "Copying README to index.md..."
-          cp ../../README.md index.md
-        fi
+        DEST=.verify-helper/markdown
+
+        # Remove old config
+        rm -f "$DEST/_config.yml" "$DEST/.nojekyll"
+
+        # Copy our custom theme files
+        cp _config.yml "$DEST/_config.yml"
+        cp index.md "$DEST/index.md"
+        cp -r _layouts "$DEST/_layouts"
+        cp -r _includes "$DEST/_includes"
+        cp -r assets "$DEST/assets"
+
+        # Copy docs that verify-helper didn't generate
+        cp -r docs/* "$DEST/docs/" 2>/dev/null || true
 
     - name: Deploy to GitHub Pages
       if: success() && github.ref == 'refs/heads/main'
@@ -61,6 +57,6 @@ jobs:
         publish_dir: .verify-helper/markdown
         keep_files: false
         force_orphan: true
-        enable_jekyll: true  
+        enable_jekyll: true
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'

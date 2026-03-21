@@ -5,10 +5,87 @@ documentation_of: mod/barrett.hpp
 
 # Barrett Reduction
 
-Barrett Reduction is used to do modular arithmetic for some non-constant modulo fast. This requires some mathematical observation which can be seen in [Wikipedia](https://en.wikipedia.org/wiki/Barrett_reduction). The implementation used here is due to [Maspy](https://maspypy.github.io/library/mod/barrett.hpp) and [ACL](https://github.com/atcoder/ac-library/blob/master/atcoder/internal_math.hpp). 
+## Overview
 
-Given a number $z$ we want to answer $z\mod m$ fast. The naive implementation is to use $z - m(z / m)$ where $z/m$ is the floor division in some programming language. Doing this repetitively will cost us lots of time due to the inefficiency of division compared to that of the multiplication. The idea of Barrett Reduction is to instead find an approximation of $z / m$. Indeed we can choose some very huge number that will be beneficial for the computer, say $2 ^ {64}$. We will then compute $\mathrm{im} = \frac{2^{64}}{m}$ and represent $z$ as
+Barrett Reduction is a technique for performing modular arithmetic **without division instructions**, replacing them with multiplications and bit shifts. This is significantly faster when the modulus is not a compile-time constant.
 
-$$x \approx z\cdot\frac{\text{im}}{2^{64}}$$
+The key idea: given a modulus $m$, precompute $\mathrm{im} = \left\lceil \frac{2^{64}}{m} \right\rceil$. Then for any $z$, the quotient $\lfloor z / m \rfloor$ can be approximated as:
 
-where $x$ is the quotient $z / m$. Notice that $\mathrm{im}$ can be calculated only once (so we can think of it as precomputation) and use this number everytime we need it without doing inefficient division again. The advantage of this reformulation is that dividing $\mathrm{im}$ with $2^{64}$ is equivalent with shifting 64 bit to the right, which can be done really fast by the CPU. 
+$$x \approx \frac{z \cdot \mathrm{im}}{2^{64}}$$
+
+The division by $2^{64}$ is a free bit-shift (taking the upper 64 bits of a 128-bit product). This eliminates the expensive `div` instruction, replacing it with a single `mul` + shift.
+
+The implementation is based on [Maspy's library](https://maspypy.github.io/library/mod/barrett.hpp) and the [AtCoder Library internal math](https://github.com/atcoder/ac-library/blob/master/atcoder/internal_math.hpp).
+
+## Constructor
+
+### `Barrett(uint32_t m = 1)`
+
+Precomputes the Barrett constant $\mathrm{im} = \left\lceil 2^{64} / m \right\rceil$ for modulus $m$.
+
+**Constraints**: $m \ge 1$
+
+**Complexity**: $O(1)$
+
+## Methods
+
+### `uint32_t umod()`
+
+Returns the modulus $m$.
+
+**Complexity**: $O(1)$
+
+### `uint32_t modulo(uint64_t z)`
+
+Returns $z \bmod m$.
+
+**Constraints**: $0 \le z < 2^{64}$
+
+**Complexity**: $O(1)$
+
+### `uint64_t floor(uint64_t z)`
+
+Returns $\lfloor z / m \rfloor$.
+
+**Constraints**: $0 \le z < 2^{64}$
+
+**Complexity**: $O(1)$
+
+### `std::pair<uint64_t, uint32_t> divmod(uint64_t z)`
+
+Returns $(\lfloor z / m \rfloor, \; z \bmod m)$ as a pair.
+
+**Constraints**: $0 \le z < 2^{64}$
+
+**Complexity**: $O(1)$
+
+### `uint32_t mul(uint32_t a, uint32_t b)`
+
+Returns $(a \times b) \bmod m$.
+
+**Constraints**: $0 \le a, b < m$
+
+**Complexity**: $O(1)$
+
+## Usage Example
+
+```cpp
+#include "mod/barrett.hpp"
+
+int main() {
+    Barrett bt(998244353);
+
+    bt.modulo(1000000000000LL);  // 1000000000000 % 998244353
+    bt.floor(1000000000000LL);   // 1000000000000 / 998244353
+    bt.mul(500000000, 600000000); // (5e8 * 6e8) % 998244353
+
+    auto [q, r] = bt.divmod(1000000000000LL);
+    // q = quotient, r = remainder
+}
+```
+
+## When to Use
+
+- **DynamicModInt**: This struct is used internally by [DynamicModInt](./dynamic_modint.md) to avoid division in modular multiplication.
+- **Manual modular arithmetic**: When you need fast mod operations with a runtime modulus but don't want the full `DynamicModInt` wrapper.
+- **Performance-critical inner loops**: Replacing `%` with Barrett in tight loops can give 2-3x speedup.
