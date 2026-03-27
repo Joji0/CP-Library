@@ -68,9 +68,9 @@ Creates a segment tree of $n$ elements, all initialized to `Monoid::e()`.
 
 ### `SegTree<Monoid>(const std::vector<T> &A)`
 
-Creates a segment tree from the vector $A$, where $n = |A|$.
+Creates a segment tree from the vector $A$, where $n = \lvert A \rvert$.
 
-**Constraints**: $0 \le |A|$
+**Constraints**: $0 \le \lvert A \rvert$
 
 **Complexity**: $O(n)$
 
@@ -301,5 +301,4 @@ template <typename Monoid> struct SegTree {
                 return find_last_dfs(v * 2, tl, tm, l, std::min(r, tm), check);
         }
 };
-
 ```

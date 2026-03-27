@@ -39,7 +39,7 @@ Creates a BigDec with integer value $n$ (i.e., $n.000\ldots$).
 
 Creates a BigDec by parsing a decimal string like `"3.14159"`. The string may include a negative sign, integer part, and fractional part. Digits beyond $P$ decimal places are truncated.
 
-**Complexity**: $O(|s|)$
+**Complexity**: $O(\lvert s \rvert)$
 
 ## Operators
 
@@ -53,7 +53,7 @@ Full arithmetic and comparison operators:
 | `+a`, `-a` | Unary plus / negation | $O(1)$ |
 | `a < b`, `a > b`, `a <= b`, `a >= b` | Comparison | $O(1)$ |
 | `a == b`, `a != b` | Equality | $O(1)$ |
-| `cin >> a` | Read decimal string from input | $O(|s|)$ |
+| `cin >> a` | Read decimal string from input | $O(\lvert s \rvert)$ |
 | `cout << a` | Output with exactly $P$ decimal digits | $O(P)$ |
 
 All compound assignment versions (`+=`, `-=`, `*=`, `/=`) are also available.
@@ -225,5 +225,4 @@ template <int P> struct BigDec {
                 return os;
         }
 };
-
 ```

@@ -146,5 +146,4 @@ struct UnionFind {
                 return result;
         }
 };
-
 ```

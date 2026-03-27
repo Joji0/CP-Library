@@ -122,7 +122,7 @@ $$\binom{n}{k_1, k_2, \ldots, k_m} = \frac{n!}{k_1! \cdot k_2! \cdot \ldots \cdo
 
 Returns $0$ if $\sum k_i \ne n$ or any $k_i < 0$.
 
-**Complexity**: $O(m)$ after precomputation, where $m = |ks|$
+**Complexity**: $O(m)$ after precomputation, where $m = \lvert ks \rvert$
 
 ## Usage Example
 
@@ -280,5 +280,4 @@ template <typename Mint> struct Combinatorics {
                 return fact(n) * denom;
         }
 };
-
 ```

@@ -11,8 +11,8 @@ ActedMonoid for lazy segment tree supporting **range add** updates and **range s
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| $S$ | `struct {int64_t val; int cnt;}` | Node stores sum and segment size |
-| $F$ | `int64_t` | Add value |
+| $S$ | `struct {T val; int cnt;}` | Node stores sum and segment size |
+| $F$ | `T` (default `int64_t`) | Add value |
 | $\mathrm{op}(a, b)$ | `{a.val+b.val, a.cnt+b.cnt}` | Merge two nodes |
 | $e$ | `{0, 0}` | Identity |
 | $\mathrm{mapping}(f, x)$ | `{x.val + f*x.cnt, x.cnt}` | Add $f$ to each element |
@@ -24,9 +24,9 @@ ActedMonoid for lazy segment tree supporting **range add** updates and **range s
 When constructing the segment tree, each leaf must have `cnt = 1`:
 
 ```cpp
-std::vector<SumAdd::S> a;
+std::vector<SumAdd<>::S> a;
 for (int x : values) a.push_back({x, 1});
-LazySegTree<SumAdd> seg(a);
+LazySegTree<SumAdd<>> seg(a);
 ```
 
 ## Usage
@@ -35,9 +35,9 @@ LazySegTree<SumAdd> seg(a);
 #include "acted_monoid/sum_add.hpp"
 #include "ds/segtree/lazy_segtree.hpp"
 
-std::vector<SumAdd::S> a;
+std::vector<SumAdd<>::S> a;
 for (int x : {3, 1, 4, 1, 5}) a.push_back({x, 1});
-LazySegTree<SumAdd> seg(a);
+LazySegTree<SumAdd<>> seg(a);
 
 seg.query(0, 4).val;    // 14 (sum of all)
 seg.update(0, 2, 10LL); // add 10 to [0..2]
@@ -48,18 +48,18 @@ seg.query(0, 2).val;    // 38 (13+11+14)
 
 ```cpp
 #pragma once
+#include <cstdint>
 
-struct SumAdd {
-	struct S {
-		int64_t val;
-		int cnt;
-	};
-	using F = int64_t;
-	static S op(S a, S b) { return {a.val + b.val, a.cnt + b.cnt}; }
-	static S e() { return {0, 0}; }
-	static S mapping(F f, S x) { return {x.val + f * x.cnt, x.cnt}; }
-	static F composition(F f, F g) { return f + g; }
-	static F id() { return 0; }
+template <typename T = int64_t> struct SumAdd {
+        struct S {
+                T val;
+                int cnt;
+        };
+        using F = T;
+        static S op(S a, S b) { return {a.val + b.val, a.cnt + b.cnt}; }
+        static S e() { return {0, 0}; }
+        static S mapping(F f, S x) { return {x.val + f * x.cnt, x.cnt}; }
+        static F composition(F f, F g) { return f + g; }
+        static F id() { return 0; }
 };
-
 ```

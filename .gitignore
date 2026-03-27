@@ -3,3 +3,5 @@ bits/
 compile_commands.json
 .clangd
 .cache
+.claude/
+CLAUDE.md

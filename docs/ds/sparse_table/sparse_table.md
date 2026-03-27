@@ -38,7 +38,7 @@ Creates an empty sparse table. Call `init()` to populate.
 
 Builds the sparse table from array $A$ of size $n$.
 
-**Constraints**: $0 < |A|$
+**Constraints**: $0 < \lvert A \rvert$
 
 **Complexity**: $O(n \log n)$ time and space
 
@@ -93,5 +93,4 @@ template <class T> struct SparseTable {
                 return f(st[lg][L], st[lg][R - (1 << lg) + 1]);
         }
 };
-
 ```

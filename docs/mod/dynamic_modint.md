@@ -191,5 +191,4 @@ template <int id> struct DynamicModInt {
                 return is;
         }
 };
-
 ```

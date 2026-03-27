@@ -177,5 +177,4 @@ template <uint32_t MOD> struct ModInt {
                 return is;
         }
 };
-
 ```

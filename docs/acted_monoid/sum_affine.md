@@ -13,8 +13,8 @@ This is one of the most powerful and frequently used acted monoids in competitiv
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| $S$ | `struct {int64_t val; int cnt;}` | Node stores sum and segment size |
-| $F$ | `struct {int64_t a, b;}` | Affine: $x \mapsto ax + b$ |
+| $S$ | `struct {T val; int cnt;}` | Node stores sum and segment size |
+| $F$ | `struct {T a, b;}` | Affine: $x \mapsto ax + b$ |
 | $\mathrm{op}(s_1, s_2)$ | `{s1.val+s2.val, s1.cnt+s2.cnt}` | Merge two nodes |
 | $e$ | `{0, 0}` | Identity |
 | $\mathrm{mapping}(f, x)$ | `{f.a*x.val + f.b*x.cnt, x.cnt}` | Apply $f$ to segment |
@@ -40,35 +40,35 @@ $$f(g(x)) = f_a(g_a x + g_b) + f_b = (f_a \cdot g_a)x + (f_a \cdot g_b + f_b)$$
 #include "acted_monoid/sum_affine.hpp"
 #include "ds/segtree/lazy_segtree.hpp"
 
-std::vector<SumAffine::S> a;
+std::vector<SumAffine<>::S> a;
 for (int x : {3, 1, 4}) a.push_back({x, 1});
-LazySegTree<SumAffine> seg(a);
+LazySegTree<SumAffine<>> seg(a);
 
-seg.query(0, 2).val;                  // 8
-seg.update(0, 2, SumAffine::F{2, 1}); // 2x+1 → {7, 3, 9}
-seg.query(0, 2).val;                  // 19
-seg.update(0, 2, SumAffine::F{0, 5}); // assign 5 → {5, 5, 5}
-seg.query(0, 2).val;                  // 15
+seg.query(0, 2).val;                    // 8
+seg.update(0, 2, SumAffine<>::F{2, 1}); // 2x+1 → {7, 3, 9}
+seg.query(0, 2).val;                    // 19
+seg.update(0, 2, SumAffine<>::F{0, 5}); // assign 5 → {5, 5, 5}
+seg.query(0, 2).val;                    // 15
 ```
 
 ## Source Code
 
 ```cpp
 #pragma once
+#include <cstdint>
 
-struct SumAffine {
-	struct S {
-		int64_t val;
-		int cnt;
-	};
-	struct F {
-		int64_t a, b;
-	};
-	static S op(S x, S y) { return {x.val + y.val, x.cnt + y.cnt}; }
-	static S e() { return {0, 0}; }
-	static S mapping(F f, S x) { return {f.a * x.val + f.b * x.cnt, x.cnt}; }
-	static F composition(F f, F g) { return {f.a * g.a, f.a * g.b + f.b}; }
-	static F id() { return {1, 0}; }
+template <typename T = int64_t> struct SumAffine {
+        struct S {
+                T val;
+                int cnt;
+        };
+        struct F {
+                T a, b;
+        };
+        static S op(S x, S y) { return {x.val + y.val, x.cnt + y.cnt}; }
+        static S e() { return {0, 0}; }
+        static S mapping(F f, S x) { return {f.a * x.val + f.b * x.cnt, x.cnt}; }
+        static F composition(F f, F g) { return {f.a * g.a, f.a * g.b + f.b}; }
+        static F id() { return {1, 0}; }
 };
-
 ```

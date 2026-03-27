@@ -177,5 +177,4 @@ template <typename T> struct Matrix {
                 return res;
         }
 };
-
 ```

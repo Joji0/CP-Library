@@ -229,5 +229,4 @@ struct Sieve {
         }
 };
 } // namespace NT
-
 ```

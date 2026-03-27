@@ -340,5 +340,4 @@ template <typename ActedMonoid> struct ImplicitTreap {
         }
         S get(int pos) { return query(pos, pos); }
 };
-
 ```

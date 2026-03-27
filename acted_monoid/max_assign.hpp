@@ -1,15 +1,15 @@
 #pragma once
-#include <cstdint>
 #include <algorithm>
-#include <climits>
+#include <cstdint>
+#include <limits>
 
-struct MaxAssign {
-	using S = int64_t;
-	using F = int64_t;
-	static constexpr F NONE = LLONG_MIN;
-	static S op(S a, S b) { return std::max(a, b); }
-	static S e() { return -(int64_t)1e18; }
-	static S mapping(F f, S x) { return f == NONE ? x : f; }
-	static F composition(F f, F g) { return f == NONE ? g : f; }
-	static F id() { return NONE; }
+template <typename T = int64_t> struct MaxAssign {
+        using S = T;
+        using F = T;
+        static constexpr F NONE = std::numeric_limits<T>::min();
+        static S op(S a, S b) { return std::max(a, b); }
+        static S e() { return std::numeric_limits<T>::min(); }
+        static S mapping(F f, S x) { return f == NONE ? x : f; }
+        static F composition(F f, F g) { return f == NONE ? g : f; }
+        static F id() { return NONE; }
 };

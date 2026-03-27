@@ -124,5 +124,4 @@ struct Barrett {
         }
         uint32_t mul(uint32_t a, uint32_t b) const { return modulo((uint64_t)(a)*b); }
 };
-
 ```

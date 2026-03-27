@@ -41,7 +41,7 @@ Creates a persistent segment tree with $n$ elements initialized to `Monoid::e()`
 
 Creates a persistent segment tree from the vector $A$. One initial root (version 0) is created.
 
-**Constraints**: $0 \le |A|$
+**Constraints**: $0 \le \lvert A \rvert$
 
 **Complexity**: $O(n)$
 
@@ -279,5 +279,4 @@ template <typename Monoid> struct PersistentSegTree {
                 return min_left_dfs(lc[v], tl, tm, r, pred, acc);
         }
 };
-
 ```

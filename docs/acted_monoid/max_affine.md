@@ -11,10 +11,10 @@ ActedMonoid for lazy segment tree supporting **range affine transformation** $x 
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| $S$ | `int64_t` | Max value |
-| $F$ | `struct {int64_t a, b;}` | Affine: $x \mapsto ax + b$ |
+| $S$ | `T` (default `int64_t`) | Max value |
+| $F$ | `struct {T a, b;}` | Affine: $x \mapsto ax + b$ |
 | $\mathrm{op}(a, b)$ | $\max(a, b)$ | Merge |
-| $e$ | $-10^{18}$ | Identity |
+| $e$ | `std::numeric_limits<T>::min()` | Identity |
 | $\mathrm{mapping}(f, x)$ | $f_a \cdot x + f_b$ | Apply affine |
 | $\mathrm{composition}(f, g)$ | $\{f_a \cdot g_a,\; f_a \cdot g_b + f_b\}$ | $f \circ g$ |
 | $\mathrm{id}$ | $\{1, 0\}$ | Identity |
@@ -28,10 +28,10 @@ ActedMonoid for lazy segment tree supporting **range affine transformation** $x 
 #include "ds/segtree/lazy_segtree.hpp"
 
 std::vector<int64_t> a = {3, 1, 4};
-LazySegTree<MaxAffine> seg(a);
+LazySegTree<MaxAffine<>> seg(a);
 
-seg.update(0, 2, MaxAffine::F{2, 1}); // 2x+1
-seg.query(0, 2);                       // 9 (max of 7,3,9)
+seg.update(0, 2, MaxAffine<>::F{2, 1}); // 2x+1
+seg.query(0, 2);                         // 9 (max of 7,3,9)
 ```
 
 ## Source Code
@@ -39,17 +39,18 @@ seg.query(0, 2);                       // 9 (max of 7,3,9)
 ```cpp
 #pragma once
 #include <algorithm>
+#include <cstdint>
+#include <limits>
 
-struct MaxAffine {
-	using S = int64_t;
-	struct F {
-		int64_t a, b;
-	};
-	static S op(S a, S b) { return std::max(a, b); }
-	static S e() { return -(int64_t)1e18; }
-	static S mapping(F f, S x) { return f.a * x + f.b; }
-	static F composition(F f, F g) { return {f.a * g.a, f.a * g.b + f.b}; }
-	static F id() { return {1, 0}; }
+template <typename T = int64_t> struct MaxAffine {
+        using S = T;
+        struct F {
+                T a, b;
+        };
+        static S op(S a, S b) { return std::max(a, b); }
+        static S e() { return std::numeric_limits<T>::min(); }
+        static S mapping(F f, S x) { return f.a * x + f.b; }
+        static F composition(F f, F g) { return {f.a * g.a, f.a * g.b + f.b}; }
+        static F id() { return {1, 0}; }
 };
-
 ```

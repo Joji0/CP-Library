@@ -11,9 +11,9 @@ Monoid for **range minimum** queries on a segment tree.
 
 | Property | Value |
 |----------|-------|
-| Set $S$ | `int64_t` |
+| Set $S$ | `T` (default `int64_t`) |
 | Operation $\cdot$ | $\min(a, b)$ |
-| Identity $e$ | $10^{18}$ |
+| Identity $e$ | `std::numeric_limits<T>::max()` |
 
 ## Usage
 
@@ -21,7 +21,7 @@ Monoid for **range minimum** queries on a segment tree.
 #include "monoid/min.hpp"
 #include "ds/segtree/segtree.hpp"
 
-SegTree<MinMonoid> seg(n); // range min, point update
+SegTree<MinMonoid<>> seg(n); // range min, point update
 ```
 
 ## Source Code
@@ -29,11 +29,12 @@ SegTree<MinMonoid> seg(n); // range min, point update
 ```cpp
 #pragma once
 #include <algorithm>
+#include <cstdint>
+#include <limits>
 
-struct MinMonoid {
-	using value_type = int64_t;
-	static value_type e() { return (int64_t)1e18; }
-	static value_type op(value_type a, value_type b) { return std::min(a, b); }
+template <typename T = int64_t> struct MinMonoid {
+        using value_type = T;
+        static value_type e() { return std::numeric_limits<T>::max(); }
+        static value_type op(value_type a, value_type b) { return std::min(a, b); }
 };
-
 ```

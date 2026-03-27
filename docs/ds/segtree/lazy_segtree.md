@@ -96,7 +96,7 @@ Creates a lazy segment tree of $n$ elements, all initialized to `ActedMonoid::e(
 
 Creates a lazy segment tree from the vector $A$.
 
-**Constraints**: $0 \le |A|$
+**Constraints**: $0 \le \lvert A \rvert$
 
 **Complexity**: $O(n)$
 
@@ -336,5 +336,4 @@ template <typename ActedMonoid> struct LazySegTree {
                 return min_left_dfs(v * 2, tl, tm, r, pred, acc);
         }
 };
-
 ```

@@ -152,5 +152,4 @@ struct RollbackDSU {
         }
         void undo() { rollback((int)history.size() - 1); }
 };
-
 ```

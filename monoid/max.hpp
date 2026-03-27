@@ -1,9 +1,10 @@
 #pragma once
-#include <cstdint>
 #include <algorithm>
+#include <cstdint>
+#include <limits>
 
-struct MaxMonoid {
-	using value_type = int64_t;
-	static value_type e() { return -(int64_t)1e18; }
-	static value_type op(value_type a, value_type b) { return std::max(a, b); }
+template <typename T = int64_t> struct MaxMonoid {
+        using value_type = T;
+        static value_type e() { return std::numeric_limits<T>::min(); }
+        static value_type op(value_type a, value_type b) { return std::max(a, b); }
 };

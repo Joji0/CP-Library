@@ -1,0 +1,24 @@
+#!/bin/sh
+# Pre-commit hook: auto-sync source code in documentation files.
+# Ensures docs always have the latest source code before committing.
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Check if any .hpp or docs/*.md files are being committed
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+HAS_HPP=false
+HAS_DOCS=false
+for f in $STAGED; do
+    case "$f" in
+        *.hpp) HAS_HPP=true ;;
+        docs/*.md) HAS_DOCS=true ;;
+    esac
+done
+
+# Only run sync if source or doc files are staged
+if [ "$HAS_HPP" = true ] || [ "$HAS_DOCS" = true ]; then
+    python3 "$REPO_ROOT/scripts/sync_docs.py"
+    # Stage any updated docs
+    git diff --name-only -- docs/ | xargs -r git add
+fi

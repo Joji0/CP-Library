@@ -9,17 +9,17 @@ documentation_of: acted_monoid/min_assign.hpp
 
 ActedMonoid for lazy segment tree supporting **range assign** and **range min** queries.
 
-Uses `LLONG_MAX` as a sentinel for "no assignment".
+Uses `std::numeric_limits<T>::max()` as a sentinel for "no assignment".
 
 | Component | Type | Description |
 |-----------|------|-------------|
-| $S$ | `int64_t` | Min value |
-| $F$ | `int64_t` | Assign value (`LLONG_MAX` = no-op) |
+| $S$ | `T` (default `int64_t`) | Min value |
+| $F$ | `T` | Assign value (`NONE` = no-op) |
 | $\mathrm{op}(a, b)$ | $\min(a, b)$ | Merge |
-| $e$ | $10^{18}$ | Identity |
+| $e$ | `std::numeric_limits<T>::max()` | Identity |
 | $\mathrm{mapping}(f, x)$ | $f = \mathrm{NONE}$ ? $x$ : $f$ | Assign |
 | $\mathrm{composition}(f, g)$ | $f = \mathrm{NONE}$ ? $g$ : $f$ | Later wins |
-| $\mathrm{id}$ | `LLONG_MAX` | No-op |
+| $\mathrm{id}$ | `NONE` | No-op |
 
 ## Usage
 
@@ -28,7 +28,7 @@ Uses `LLONG_MAX` as a sentinel for "no assignment".
 #include "ds/segtree/lazy_segtree.hpp"
 
 std::vector<int64_t> a = {3, 1, 4, 1, 5};
-LazySegTree<MinAssign> seg(a);
+LazySegTree<MinAssign<>> seg(a);
 
 seg.update(0, 2, 0LL); // assign 0 to [0..2]
 seg.query(0, 4);        // 0
@@ -39,17 +39,17 @@ seg.query(0, 4);        // 0
 ```cpp
 #pragma once
 #include <algorithm>
-#include <climits>
+#include <cstdint>
+#include <limits>
 
-struct MinAssign {
-	using S = int64_t;
-	using F = int64_t;
-	static constexpr F NONE = LLONG_MAX;
-	static S op(S a, S b) { return std::min(a, b); }
-	static S e() { return (int64_t)1e18; }
-	static S mapping(F f, S x) { return f == NONE ? x : f; }
-	static F composition(F f, F g) { return f == NONE ? g : f; }
-	static F id() { return NONE; }
+template <typename T = int64_t> struct MinAssign {
+        using S = T;
+        using F = T;
+        static constexpr F NONE = std::numeric_limits<T>::max();
+        static S op(S a, S b) { return std::min(a, b); }
+        static S e() { return std::numeric_limits<T>::max(); }
+        static S mapping(F f, S x) { return f == NONE ? x : f; }
+        static F composition(F f, F g) { return f == NONE ? g : f; }
+        static F id() { return NONE; }
 };
-
 ```
