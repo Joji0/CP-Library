@@ -524,63 +524,45 @@ blockquote p:last-child { margin-bottom: 0; }
   font-weight: 400;
 }
 
-/* Category Grid */
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
+/* Home Navigation */
+.home-nav {
   margin: 32px 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--border);
 }
 
-.category-card {
-  background: var(--bg-primary);
-  padding: 24px;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  transition: background 0.15s var(--ease);
-}
-
-.category-card:hover { background: var(--bg-tertiary); }
-
-.card-label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.home-nav > p {
   color: var(--text-muted);
-  margin-bottom: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
 }
 
-.category-card h3 {
-  margin: 0 0 6px 0;
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.category-card p {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.category-card .card-count {
-  margin-top: 12px;
-  font-size: 0.7rem;
+.home-links a {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 0.85rem;
   font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 0.15s var(--ease);
+}
+
+.home-links a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
 }
 
 /* ===== Math ===== */
-.MathJax { font-size: 1em !important; }
+.MathJax { font-size: 1.05em !important; }
+td .MathJax, th .MathJax { font-size: 1.1em !important; }
 
 /* ═══════════════════════════════════════════════════
    FOOTER
@@ -616,10 +598,6 @@ blockquote p:last-child { margin-bottom: 0; }
   .main-content { padding: 32px 20px; }
 
   .hero h1 { font-size: 1.8rem; }
-  .hero-stats { gap: 24px; }
-  .hero-stat .stat-value { font-size: 1.2rem; }
-
-  .category-grid { grid-template-columns: 1fr; }
 
   .search-box { width: 140px; }
   .search-results { left: 12px; right: 12px; width: auto; }

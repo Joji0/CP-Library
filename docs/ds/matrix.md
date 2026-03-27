@@ -111,6 +111,11 @@ int main() {
 }
 ```
 
+## Verified with
+
+* **AC** [yukicoder No.3227](https://yukicoder.me/problems/no/3227) &mdash; `3227.test.cpp`
+* **AC** [yukicoder No.3228](https://yukicoder.me/problems/no/3228) &mdash; `3228.test.cpp`
+
 ## Source Code
 
 ```cpp

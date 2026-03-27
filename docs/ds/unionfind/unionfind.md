@@ -93,6 +93,10 @@ int main() {
 }
 ```
 
+## Verified with
+
+* **AC** [yukicoder No.3200](https://yukicoder.me/problems/no/3200) &mdash; `3200.test.cpp`
+
 ## Source Code
 
 ```cpp

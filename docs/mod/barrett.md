@@ -90,6 +90,10 @@ int main() {
 - **Manual modular arithmetic**: When you need fast mod operations with a runtime modulus but don't want the full `DynamicModInt` wrapper.
 - **Performance-critical inner loops**: Replacing `%` with Barrett in tight loops can give 2-3x speedup.
 
+## Required by
+
+* [mod/dynamic_modint.hpp](dynamic_modint)
+
 ## Source Code
 
 ```cpp

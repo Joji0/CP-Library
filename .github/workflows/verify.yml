@@ -32,6 +32,9 @@ jobs:
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
       run: oj-verify all
 
+    - name: Build docs (sync source, inject verification, generate sidebar)
+      run: python3 scripts/build_site.py
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:

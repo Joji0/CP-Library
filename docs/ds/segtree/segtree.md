@@ -178,6 +178,13 @@ int main() {
 }
 ```
 
+## Verified with
+
+* **AC** [yukicoder No.3198](https://yukicoder.me/problems/no/3198) &mdash; `3198.test.cpp`
+* **AC** [yukicoder No.3227](https://yukicoder.me/problems/no/3227) &mdash; `3227.test.cpp`
+* **AC** [yukicoder No.3327](https://yukicoder.me/problems/no/3327) &mdash; `3327.test.cpp`
+* **AC** [yukicoder No.875](https://yukicoder.me/problems/no/875) &mdash; `875.test.cpp`
+
 ## Source Code
 
 ```cpp

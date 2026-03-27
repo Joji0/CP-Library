@@ -118,6 +118,14 @@ int main() {
 }
 ```
 
+## Depends on
+
+* [mod/barrett.hpp](barrett)
+
+## Verified with
+
+* **AC** [yukicoder No.3227](https://yukicoder.me/problems/no/3227) &mdash; `3227.test.cpp`
+
 ## Source Code
 
 ```cpp

@@ -89,6 +89,11 @@ int main() {
 }
 ```
 
+## Verified with
+
+* **AC** [Library Checker: associative_array](https://judge.yosupo.jp/problem/associative_array) &mdash; `hashmap.test.cpp`
+* **AC** [yukicoder No.3197](https://yukicoder.me/problems/no/3197) &mdash; `3197.test.cpp`
+
 ## Source Code
 
 ```cpp
