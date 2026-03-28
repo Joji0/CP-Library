@@ -1,6 +1,6 @@
 ---
 title: ModInt
-documentation_of: mod/modint.hpp
+documentation_of: //mod/modint.hpp
 ---
 
 Compile-time constant mod arithmetic.

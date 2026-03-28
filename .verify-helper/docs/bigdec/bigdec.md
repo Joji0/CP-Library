@@ -1,6 +1,6 @@
 ---
 title: BigDec
-documentation_of: bigdec/bigdec.hpp
+documentation_of: //bigdec/bigdec.hpp
 ---
 
 Fixed-point big decimal arithmetic using `__int128_t` internally.

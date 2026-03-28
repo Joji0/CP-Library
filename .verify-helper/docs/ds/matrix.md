@@ -1,6 +1,6 @@
 ---
 title: Matrix
-documentation_of: ds/matrix.hpp
+documentation_of: //ds/matrix.hpp
 ---
 
 Matrix library with matrix exponentiation.

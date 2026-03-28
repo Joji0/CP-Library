@@ -1,6 +1,6 @@
 ---
 title: Sieve (Linear)
-documentation_of: nt/sieve.hpp
+documentation_of: //nt/sieve.hpp
 ---
 
 Linear sieve. Builds prime list and smallest prime factor table in $O(n)$.

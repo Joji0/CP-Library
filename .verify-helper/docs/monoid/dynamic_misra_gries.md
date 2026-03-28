@@ -1,6 +1,6 @@
 ---
 title: Dynamic Misra-Gries Monoid
-documentation_of: monoid/dynamic_misra_gries.hpp
+documentation_of: //monoid/dynamic_misra_gries.hpp
 ---
 
 Misra-Gries heavy hitters with per-node dynamic $K$. `MAX_K` is the compile-time upper bound; each node stores its own $K$ value. Useful when different queries need different thresholds.

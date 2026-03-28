@@ -1,6 +1,6 @@
 ---
 title: Persistent Segment Tree
-documentation_of: ds/segtree/persistent_segtree.hpp
+documentation_of: //ds/segtree/persistent_segtree.hpp
 ---
 
 Persistent segment tree with path copying for version management.

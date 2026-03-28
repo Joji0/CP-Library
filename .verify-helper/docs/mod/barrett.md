@@ -1,6 +1,6 @@
 ---
 title: Barrett Reduction
-documentation_of: mod/barrett.hpp
+documentation_of: //mod/barrett.hpp
 ---
 
 Fast modular arithmetic via Barrett reduction. Used internally by DynamicModInt.

@@ -1,6 +1,6 @@
 ---
 title: HashMap
-documentation_of: ds/hashmap.hpp
+documentation_of: //ds/hashmap.hpp
 ---
 
 Open addressing hash map with splitmix64. Anti-hack.

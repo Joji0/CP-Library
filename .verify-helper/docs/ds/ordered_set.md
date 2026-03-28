@@ -1,6 +1,6 @@
 ---
 title: Ordered Set
-documentation_of: ds/ordered_set.hpp
+documentation_of: //ds/ordered_set.hpp
 ---
 
 Order statistics tree based on GNU PBDS. $k$-th element and rank queries in $O(\log n)$.

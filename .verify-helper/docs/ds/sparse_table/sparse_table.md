@@ -1,6 +1,6 @@
 ---
 title: Sparse Table
-documentation_of: ds/sparse_table/sparse_table.hpp
+documentation_of: //ds/sparse_table/sparse_table.hpp
 ---
 
 Static range query on an idempotent monoid. Preprocessing $O(n \log n)$, query $O(1)$.

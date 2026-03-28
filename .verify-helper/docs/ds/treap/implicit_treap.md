@@ -1,6 +1,6 @@
 ---
 title: Implicit Treap
-documentation_of: ds/treap/implicit_treap.hpp
+documentation_of: //ds/treap/implicit_treap.hpp
 ---
 
 Implicit key treap on an acted monoid. Supports range reverse, insert, and erase in $O(\log n)$.

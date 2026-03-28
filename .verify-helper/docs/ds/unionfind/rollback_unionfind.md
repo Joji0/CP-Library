@@ -1,6 +1,6 @@
 ---
 title: Rollback DSU
-documentation_of: ds/unionfind/rollback_unionfind.hpp
+documentation_of: //ds/unionfind/rollback_unionfind.hpp
 ---
 
 Rollback-capable Union-Find. Union by size only (no path compression).

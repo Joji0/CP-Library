@@ -1,6 +1,6 @@
 ---
 title: DynamicModInt
-documentation_of: mod/dynamic_modint.hpp
+documentation_of: //mod/dynamic_modint.hpp
 ---
 
 Runtime mod arithmetic using Barrett reduction.

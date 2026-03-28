@@ -1,6 +1,6 @@
 ---
 title: Segment Tree
-documentation_of: ds/segtree/segtree.hpp
+documentation_of: //ds/segtree/segtree.hpp
 ---
 
 Point update / range query segment tree on a monoid.

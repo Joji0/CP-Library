@@ -1,6 +1,6 @@
 ---
 title: Combinatorics
-documentation_of: mod/combinatorics.hpp
+documentation_of: //mod/combinatorics.hpp
 ---
 
 Combinatorics over ModInt. Lazy precomputation, $O(1)$ per query.

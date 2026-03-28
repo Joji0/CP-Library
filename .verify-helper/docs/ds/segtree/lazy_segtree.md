@@ -1,6 +1,6 @@
 ---
 title: Lazy Segment Tree
-documentation_of: ds/segtree/lazy_segtree.hpp
+documentation_of: //ds/segtree/lazy_segtree.hpp
 ---
 
 Range update / range query lazy segment tree on an acted monoid.

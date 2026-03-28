@@ -1,6 +1,6 @@
 ---
 title: Ordered MultiSet
-documentation_of: ds/ordered_multiset.hpp
+documentation_of: //ds/ordered_multiset.hpp
 ---
 
 Order statistics tree allowing duplicates. Internally assigns unique IDs.

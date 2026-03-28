@@ -1,6 +1,6 @@
 ---
 title: LCA
-documentation_of: graph/LCA.hpp
+documentation_of: //graph/LCA.hpp
 ---
 
 Lowest Common Ancestor via binary lifting. Preprocessing $O(n \log n)$, query $O(\log n)$.

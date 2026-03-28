@@ -1,6 +1,6 @@
 ---
 title: Union-Find (DSU)
-documentation_of: ds/unionfind/unionfind.hpp
+documentation_of: //ds/unionfind/unionfind.hpp
 ---
 
 Union-Find with union by size and path compression.
