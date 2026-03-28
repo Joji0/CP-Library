@@ -43,7 +43,7 @@ jobs:
         ruby-version: '3.2'
 
     - name: Install Jekyll
-      run: gem install jekyll jekyll-theme-hacker kramdown-parser-gfm rouge
+      run: gem install jekyll jekyll-theme-hacker kramdown-parser-gfm rouge jemoji
 
     - name: Build site
       run: |

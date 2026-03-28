@@ -7,6 +7,8 @@ markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+plugins:
+  - jemoji
 defaults:
   - scope:
       path: ""
