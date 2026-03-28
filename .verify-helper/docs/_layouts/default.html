@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title and page.title != "Home" %}{{ page.title }} — {% endif %}{{ site.title | default: "CP-Library" }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/syntax.css' | relative_url }}">
+  <script>
+    (function() {
+      var t = localStorage.getItem('cp-lib-theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a id="a-title" href="{{ '/' | relative_url }}">
+        <h1>{{ site.title | default: "CP-Library" }}</h1>
+      </a>
+      <h2>{{ site.description | default: "Competitive Programming Library by joji0" }}</h2>
+      <section id="downloads">
+        <a href="https://github.com/joji0/CP-Library" class="btn btn-github" target="_blank">
+          <span class="icon"></span>View on GitHub
+        </a>
+        <button class="btn btn-theme" id="themeToggle" aria-label="Toggle theme"></button>
+      </section>
+    </div>
+  </header>
+
+  <div class="container">
+    <section id="main_content">
+      {{ content }}
+    </section>
+
+    {% unless page.url == "/" or page.url == "/index.html" %}
+    <p><a href="{{ '/' | relative_url }}">Back to top page</a></p>
+    {% endunless %}
+  </div>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      },
+      chtml: { scale: 1.05, matchFontHeight: false },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+
+  <script>
+    // ===== Theme Toggle =====
+    (function() {
+      var btn = document.getElementById('themeToggle');
+      function update() {
+        var t = document.documentElement.getAttribute('data-theme');
+        btn.textContent = t === 'dark' ? '☀' : '☾';
+      }
+      update();
+      btn.addEventListener('click', function() {
+        var cur = document.documentElement.getAttribute('data-theme');
+        var next = cur === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('cp-lib-theme', next);
+        update();
+      });
+    })();
+
+    // ===== Copy Code Buttons =====
+    document.querySelectorAll('#main_content pre').forEach(function(pre) {
+      var btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', function() {
+        var code = pre.querySelector('code') || pre;
+        navigator.clipboard.writeText(code.textContent).then(function() {
+          btn.textContent = 'Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+        });
+      });
+      pre.style.position = 'relative';
+      pre.appendChild(btn);
+    });
+
+    // ===== Heading Anchors =====
+    document.querySelectorAll('#main_content h2[id], #main_content h3[id]').forEach(function(h) {
+      var a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = '#' + h.id;
+      a.textContent = '#';
+      h.appendChild(a);
+    });
+  </script>
+
+</body>
+</html>

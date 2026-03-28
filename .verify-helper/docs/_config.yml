@@ -1,0 +1,9 @@
+title: CP-Library
+description: Competitive Programming Library by joji0
+baseurl: /CP-Library
+url: https://joji0.github.io
+theme: jekyll-theme-hacker
+exclude:
+  - scripts
+  - Makefile
+  - competitive-template.hpp

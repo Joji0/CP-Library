@@ -26,14 +26,11 @@ jobs:
     - name: Install dependencies
       run: pip3 install -U online-judge-verify-helper
 
-    - name: Run tests (Generate Docs)
+    - name: Run tests & generate docs
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
       run: oj-verify all
-
-    - name: Build docs (sync source, inject verification, generate sidebar)
-      run: python3 scripts/build_site.py
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -41,36 +38,22 @@ jobs:
         ruby-version: '3.2'
 
     - name: Install Jekyll
-      run: gem install jekyll kramdown-parser-gfm rouge
+      run: gem install jekyll kramdown-parser-gfm rouge jekyll-theme-hacker
 
-    - name: Build site with custom theme
+    - name: Build site
       run: |
         DEST=.verify-helper/markdown
 
-        # Remove oj-verify's Gemfile and config so they don't interfere
-        rm -f "$DEST/_config.yml" "$DEST/.nojekyll" "$DEST/Gemfile" "$DEST/Gemfile.lock"
+        # oj-verify already copied .verify-helper/docs/ into $DEST
+        # (our _config.yml, _layouts/, assets/css/, and doc .md files)
+        # Just need to remove its auto-generated Gemfile if present
+        rm -f "$DEST/Gemfile" "$DEST/Gemfile.lock"
 
-        # Copy our custom theme files (remove target dirs first to avoid nesting)
-        cp _config.yml "$DEST/_config.yml"
-        cp index.md "$DEST/index.md"
-        rm -rf "$DEST/_layouts" "$DEST/_includes" "$DEST/assets"
-        cp -r _layouts "$DEST/_layouts"
-        cp -r _includes "$DEST/_includes"
-        cp -r assets "$DEST/assets"
-
-        # Copy our docs (overwrite verify-helper generated ones)
-        mkdir -p "$DEST/docs"
-        cp -r docs/* "$DEST/docs/" 2>/dev/null || true
-
-        # Remove oj-verify generated .hpp.md files (contain raw C++ with {{ }} that breaks Liquid)
-        find "$DEST" -name '*.hpp.md' -delete
-        find "$DEST" -name '*.test.cpp.md' -delete
-
-        # Build Jekyll locally
+        # Build Jekyll
         cd "$DEST"
         JEKYLL_ENV=production jekyll build --destination _site
 
-        # Prevent GitHub Pages from running Jekyll again
+        # Prevent GitHub Pages from re-running Jekyll
         touch _site/.nojekyll
 
     - name: Deploy to GitHub Pages

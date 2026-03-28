@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════════════════
+   Syntax Highlighting — Base16 Dark (Hacker Theme)
+   ═══════════════════════════════════════════════════ */
+
+.highlight { background: var(--bg-code); border-radius: 2px; }
+.highlight pre { margin: 0; }
+.highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+
+/* Plaintext */
+.highlight .w { color: #d0d0d0; }
+
+/* Errors */
+.highlight .err { color: #151515; background-color: #ac4142; }
+
+/* Comments */
+.highlight .c,
+.highlight .cd,
+.highlight .cm,
+.highlight .c1,
+.highlight .cs { color: #888; }
+
+/* Preprocessor */
+.highlight .cp { color: #f4bf75; }
+
+/* Operators */
+.highlight .o,
+.highlight .ow { color: #f4bf75; }
+
+/* Punctuation */
+.highlight .p,
+.highlight .pi { color: #d0d0d0; }
+
+/* Inserted */
+.highlight .gi { color: #b5e853; }
+
+/* Deleted */
+.highlight .gd { color: #ac4142; }
+
+/* Header */
+.highlight .gh { color: #6a9fb5; font-weight: bold; }
+
+/* Keywords */
+.highlight .k,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kv { color: #aa759f; }
+
+/* Keyword constant/type/declaration */
+.highlight .kc,
+.highlight .kt,
+.highlight .kd { color: #d28445; }
+
+/* Strings */
+.highlight .s,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .sh,
+.highlight .sx,
+.highlight .s1 { color: #b5e853; }
+
+/* Regex */
+.highlight .sr { color: #75b5aa; }
+
+/* String interpolation/escape */
+.highlight .si,
+.highlight .se { color: #8f5536; }
+
+/* Namespace / class / tag */
+.highlight .nt,
+.highlight .nn,
+.highlight .nc,
+.highlight .no { color: #f4bf75; }
+
+/* Attribute */
+.highlight .na { color: #6a9fb5; }
+
+/* Literals/numbers */
+.highlight .m,
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .il,
+.highlight .mo,
+.highlight .mb,
+.highlight .mx { color: #b5e853; }
+
+/* Symbol */
+.highlight .ss { color: #b5e853; }
+
+/* Name.Function */
+.highlight .nf,
+.highlight .fm { color: #6a9fb5; }
+
+/* Name.Variable */
+.highlight .nv,
+.highlight .vi,
+.highlight .vc,
+.highlight .vg,
+.highlight .vm { color: #6a9fb5; }
+
+/* Name.Builtin */
+.highlight .nb { color: #6a9fb5; }
+
+/* Generic */
+.highlight .n { color: #d0d0d0; }
+.highlight .ni { color: #d0d0d0; }
+
+/* Delimiter */
+.highlight .dl { color: #b5e853; }
