@@ -14,23 +14,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
 
-    - name: Install dependencies
+    - name: Install oj-verify
       run: pip3 install -U online-judge-verify-helper
 
-    - name: Run tests & generate docs
+    - name: Run tests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
-      run: oj-verify all
+      run: oj-verify run
+
+    - name: Generate docs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: oj-verify docs 2>&1 || true
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
@@ -38,22 +43,17 @@ jobs:
         ruby-version: '3.2'
 
     - name: Install Jekyll
-      run: gem install jekyll kramdown-parser-gfm rouge jekyll-theme-hacker
+      run: gem install jekyll jekyll-theme-hacker kramdown-parser-gfm rouge
 
     - name: Build site
       run: |
-        DEST=.verify-helper/markdown
-
-        # oj-verify already copied .verify-helper/docs/ into $DEST
-        # (our _config.yml, _layouts/, assets/css/, and doc .md files)
-        # Just need to remove its auto-generated Gemfile if present
-        rm -f "$DEST/Gemfile" "$DEST/Gemfile.lock"
-
-        # Build Jekyll
-        cd "$DEST"
+        cd .verify-helper/markdown
+        rm -f Gemfile Gemfile.lock
+        cp -f ../docs/_config.yml ./_config.yml
+        rm -rf _layouts assets
+        cp -r ../docs/_layouts ./ 2>/dev/null || true
+        cp -r ../docs/assets ./ 2>/dev/null || true
         JEKYLL_ENV=production jekyll build --destination _site
-
-        # Prevent GitHub Pages from re-running Jekyll
         touch _site/.nojekyll
 
     - name: Deploy to GitHub Pages

@@ -3,7 +3,13 @@ description: Competitive Programming Library by joji0
 baseurl: /CP-Library
 url: https://joji0.github.io
 theme: jekyll-theme-hacker
-exclude:
-  - scripts
-  - Makefile
-  - competitive-template.hpp
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+      render_with_liquid: false
