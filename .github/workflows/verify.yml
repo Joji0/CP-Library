@@ -50,9 +50,10 @@ jobs:
         cd .verify-helper/markdown
         rm -f Gemfile Gemfile.lock
         cp -f ../docs/_config.yml ./_config.yml
-        rm -rf _layouts assets
-        cp -r ../docs/_layouts ./ 2>/dev/null || true
-        cp -r ../docs/assets ./ 2>/dev/null || true
+        cp -f ../docs/_layouts/default.html ./_layouts/default.html
+        rm -f ./assets/css/style.scss
+        cp -f ../docs/assets/css/style.css ./assets/css/style.css
+        cp -f ../docs/assets/css/syntax.css ./assets/css/syntax.css
         JEKYLL_ENV=production jekyll build --destination _site
         touch _site/.nojekyll
 
