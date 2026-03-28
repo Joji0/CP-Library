@@ -269,6 +269,12 @@ body {
 .sidebar-inner { padding: 12px 0 32px; }
 .sidebar-section { margin-bottom: 2px; }
 
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 16px;
+}
+
 .sidebar-section-title {
   display: flex; align-items: center; gap: 6px;
   padding: 8px 16px;
@@ -605,6 +611,59 @@ td .MathJax, th .MathJax { font-size: 1.1em !important; }
 
 @media (max-width: 480px) {
   .search-box { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════
+   VERIFICATION STATUS ICONS
+   ═══════════════════════════════════════════════════ */
+.vi {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 3px;
+  margin-right: 5px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+  flex-shrink: 0;
+}
+
+.vi-ac {
+  color: var(--green);
+}
+
+.vi-ac::before {
+  content: "✓";
+  font-size: 0.82rem;
+}
+
+.vi-wj {
+  color: var(--orange);
+}
+
+.vi-wj::before {
+  content: "⚠";
+  font-size: 0.78rem;
+}
+
+/* Sidebar verification icons — slightly smaller */
+.sidebar-links .vi {
+  width: 14px;
+  height: 14px;
+  font-size: 0.65rem;
+  margin-right: 4px;
+}
+
+.sidebar-links .vi-ac::before { font-size: 0.75rem; }
+.sidebar-links .vi-wj::before { font-size: 0.7rem; }
+
+/* Test page list styling */
+.doc-content li .vi {
+  margin-right: 6px;
 }
 
 /* ═══════════════════════════════════════════════════

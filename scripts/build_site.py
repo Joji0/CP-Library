@@ -210,7 +210,98 @@ def process_docs(forward_deps, reverse_deps, hpp_to_tests, hpp_to_doc, timestamp
 
 # ── Generate sidebar ─────────────────────────────────────────────────
 
-def generate_sidebar(check_only=False):
+def hpp_verify_status(source_rel, hpp_to_tests, timestamps):
+	"""Determine verification status of an hpp file.
+	Returns 'ac' if all tests pass, 'wj' otherwise (including no tests)."""
+	tests = hpp_to_tests.get(source_rel, [])
+	if tests and all(t[0] in timestamps for t in tests):
+		return "ac"
+	return "wj"
+
+
+def status_icon_html(status):
+	"""Return HTML span for a verification status icon."""
+	if status == "ac":
+		return '<span class="vi vi-ac"></span>'
+	return '<span class="vi vi-wj"></span>'
+
+
+def generate_test_page(timestamps, check_only=False):
+	"""Auto-generate docs/tests.md listing all test files with verification status."""
+	test_files = []
+	for tf in sorted(glob.glob(os.path.join(TEST_DIR, "**", "*.test.cpp"), recursive=True)):
+		test_rel = os.path.relpath(tf, REPO_ROOT).replace("\\", "/")
+		with open(tf) as f:
+			src = f.read()
+		pm = re.search(r'#define\s+PROBLEM\s+"([^"]+)"', src)
+		url = pm.group(1) if pm else ""
+		group = os.path.dirname(test_rel).replace("\\", "/")
+		status = "ac" if test_rel in timestamps else "wj"
+		test_files.append((group, test_rel, url, status))
+
+	groups = {}
+	group_order = []
+	for group, test_rel, url, status in test_files:
+		if group not in groups:
+			groups[group] = []
+			group_order.append(group)
+		groups[group].append((test_rel, url, status))
+
+	lines = [
+		"---",
+		"title: Tests",
+		"layout: default",
+		"---",
+		"",
+	]
+
+	for group in group_order:
+		items = groups[group]
+		lines.append("## " + group)
+		lines.append("")
+		for test_rel, url, status in items:
+			icon = status_icon_html(status)
+			if url:
+				lines.append("* " + icon + " [" + test_rel + "](" + url + ")")
+			else:
+				lines.append("* " + icon + " " + test_rel)
+		lines.append("")
+
+	new_content = "\n".join(lines)
+
+	tests_page = os.path.join(DOCS_DIR, "tests.md")
+	try:
+		with open(tests_page) as f:
+			old = f.read()
+	except FileNotFoundError:
+		old = ""
+
+	if new_content != old:
+		if check_only:
+			print("  OUT OF SYNC: docs/tests.md")
+			return 1
+		with open(tests_page, "w") as f:
+			f.write(new_content)
+		print("  UPDATED: docs/tests.md")
+		return 1
+	return 0
+
+
+def test_group_display_name(group):
+	"""Convert test group directory path to a display name for sidebar."""
+	# e.g. "test/1_library_checker/ds" -> "Library Checker / ds"
+	# e.g. "test/2_yukicoder" -> "yukicoder"
+	parts = group.replace("test/", "").split("/")
+	judge = parts[0]
+	# Strip leading number prefix like "1_" or "2_"
+	judge = re.sub(r"^\d+_", "", judge)
+	judge = judge.replace("_", " ").title()
+	if len(parts) > 1:
+		return judge + " / " + "/".join(parts[1:])
+	return judge
+
+
+def generate_sidebar(hpp_to_tests, timestamps, check_only=False):
 	"""Auto-generate _includes/sidebar.html from docs/ directory."""
 	entries = []
 	for doc_path in sorted(glob.glob(os.path.join(DOCS_DIR, "**", "*.md"), recursive=True)):
@@ -221,37 +312,83 @@ def generate_sidebar(check_only=False):
 		if not title:
 			continue
 		rel = os.path.relpath(doc_path, DOCS_DIR).replace("\\", "/")
+		if rel == "tests.md":
+			continue
 		url_path = os.path.splitext(rel)[0]
-		entries.append((rel, url_path, title))
+		source_rel = fm.get("documentation_of", "")
+		status = ""
+		if source_rel:
+			status = hpp_verify_status(source_rel, hpp_to_tests, timestamps)
+		entries.append((rel, url_path, title, status))
 
 	used = set()
 	sections_data = []
 	for prefix, section_name in SECTIONS:
 		items = []
-		for rel, url_path, title in entries:
+		for rel, url_path, title, status in entries:
 			if rel in used:
 				continue
 			doc_dir = os.path.dirname(rel).replace("\\", "/")
 			if doc_dir == prefix or doc_dir.startswith(prefix + "/"):
-				items.append((url_path, title))
+				items.append((url_path, title, status))
 				used.add(rel)
 		if items:
 			sections_data.append((section_name, items))
 
-	remaining = [(url_path, title) for rel, url_path, title in entries if rel not in used]
+	remaining = [(url_path, title, status) for rel, url_path, title, status in entries if rel not in used]
 	if remaining:
 		sections_data.append(("Other", remaining))
 
 	html = []
+
+	# ── Library sections with status icons ──
 	for section_name, items in sections_data:
 		html.append('<div class="sidebar-section">')
 		html.append('  <div class="sidebar-section-title">')
 		html.append('    <span class="arrow">&#9660;</span> <span>' + section_name + '</span>')
 		html.append('  </div>')
 		html.append('  <ul class="sidebar-links">')
-		for url_path, title in items:
+		for url_path, title, status in items:
 			href = "{{ '/docs/" + url_path + "' | relative_url }}"
-			html.append('    <li><a href="' + href + '">' + title + '</a></li>')
+			icon = status_icon_html(status) if status else ""
+			html.append('    <li><a href="' + href + '">' + icon + title + '</a></li>')
+		html.append('  </ul>')
+		html.append('</div>')
+		html.append('')
+
+	# ── Separator ──
+	html.append('<div class="sidebar-divider"></div>')
+	html.append('')
+
+	# ── Test sections ──
+	test_files = []
+	for tf in sorted(glob.glob(os.path.join(TEST_DIR, "**", "*.test.cpp"), recursive=True)):
+		test_rel = os.path.relpath(tf, REPO_ROOT).replace("\\", "/")
+		group = os.path.dirname(test_rel).replace("\\", "/")
+		status = "ac" if test_rel in timestamps else "wj"
+		test_files.append((group, os.path.basename(test_rel), test_rel, status))
+
+	test_groups = {}
+	test_group_order = []
+	for group, basename, test_rel, status in test_files:
+		if group not in test_groups:
+			test_groups[group] = []
+			test_group_order.append(group)
+		test_groups[group].append((basename, test_rel, status))
+
+	for group in test_group_order:
+		items = test_groups[group]
+		display = test_group_display_name(group)
+		anchor = group.replace("/", "-").replace("_", "-")
+		html.append('<div class="sidebar-section">')
+		html.append('  <div class="sidebar-section-title">')
+		html.append('    <span class="arrow">&#9660;</span> <span>' + display + '</span>')
+		html.append('  </div>')
+		html.append('  <ul class="sidebar-links">')
+		for basename, test_rel, status in items:
+			href = "{{ '/docs/tests' | relative_url }}#" + anchor
+			icon = status_icon_html(status)
+			html.append('    <li><a href="' + href + '">' + icon + basename + '</a></li>')
 		html.append('  </ul>')
 		html.append('</div>')
 		html.append('')
@@ -316,11 +453,15 @@ def main():
 	print("\n=== Processing docs ===")
 	doc_changes = process_docs(forward_deps, reverse_deps, hpp_to_tests, hpp_to_doc, timestamps, check_only)
 
+	# Generate test page
+	print("\n=== Generating test page ===")
+	test_page_changes = generate_test_page(timestamps, check_only)
+
 	# Generate sidebar
 	print("\n=== Generating sidebar ===")
-	sidebar_changes = generate_sidebar(check_only)
+	sidebar_changes = generate_sidebar(hpp_to_tests, timestamps, check_only)
 
-	total = doc_changes + sidebar_changes
+	total = doc_changes + test_page_changes + sidebar_changes
 	if total:
 		if check_only:
 			print("\n" + str(total) + " file(s) out of sync. Run: python3 scripts/build_site.py")

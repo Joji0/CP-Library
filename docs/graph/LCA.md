@@ -115,7 +115,7 @@ int main() {
 
 ## Verified with
 
-* **WJ** [Library Checker: lca](https://judge.yosupo.jp/problem/lca) &mdash; `LCA.test.cpp`
+* **AC** [Library Checker: lca](https://judge.yosupo.jp/problem/lca) &mdash; `LCA.test.cpp`
 
 ## Source Code
 
