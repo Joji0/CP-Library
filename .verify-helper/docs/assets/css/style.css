@@ -13,7 +13,10 @@
 [data-theme="light"] {
   --bg-body: #f4f1ec;
   --bg-header: rgba(0, 0, 0, 0.03);
-  --bg-code: rgba(0, 0, 0, 0.85);
+  --bg-code: #fffaf0;
+  --bg-inline-code: #ebe5da;
+  --code-border: #d4cbbd;
+  --code-text: #24292f;
   --heading-color: #1a6b9c;
   --text-color: #333;
   --link-color: #1565c0;
@@ -364,3 +367,30 @@ td .MathJax, th .MathJax { font-size: 1.1em !important; }
 [data-theme="light"] header { border-bottom-color: var(--heading-color); }
 
 [data-theme="light"] blockquote { color: var(--muted-color); }
+
+[data-theme="light"] code.highlighter-rouge {
+  background: var(--bg-inline-code);
+  border-color: var(--code-border);
+  color: #7c3f8c;
+}
+
+[data-theme="light"] pre {
+  background: var(--bg-code);
+  border-color: var(--code-border);
+  color: var(--code-text);
+}
+
+[data-theme="light"] pre code {
+  color: var(--code-text);
+}
+
+[data-theme="light"] .copy-btn {
+  background: #f8f6f0;
+  border-color: #c9c1b4;
+  color: #444;
+}
+
+[data-theme="light"] .copy-btn:hover {
+  color: #111;
+  border-color: #8f8677;
+}

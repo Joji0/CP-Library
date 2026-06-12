@@ -87,6 +87,18 @@
       pre.appendChild(btn);
     });
 
+    // ===== Hide stale generated verification badges =====
+    document.querySelectorAll('#main_content img').forEach(function(img) {
+      var src = img.getAttribute('src') || '';
+      var alt = (img.getAttribute('alt') || '').toLowerCase();
+      if (src.indexOf('img.shields.io') !== -1 ||
+          src.indexOf('online-judge-tools.github.io/verification-helper') !== -1 ||
+          (src.indexOf('verification-helper') !== -1 && src.indexOf('badge') !== -1) ||
+          alt.indexOf('badge') !== -1) {
+        img.remove();
+      }
+    });
+
     // ===== Heading Anchors =====
     document.querySelectorAll('#main_content h2[id], #main_content h3[id]').forEach(function(h) {
       var a = document.createElement('a');
