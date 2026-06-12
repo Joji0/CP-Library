@@ -2,18 +2,17 @@
 
 Competitive programming library in C++17.
 
-## Main Modules
+This README tracks the committed library surface. Experimental or learning-in-progress files in the worktree are intentionally omitted until they are learned, verified, and committed.
+
+## Committed Modules
 
 - `monoid/`, `acted_monoid/`: algebraic building blocks for segment trees and lazy propagation
-- `ds/`: Fenwick tree, segment trees, sqrt decomposition, treap, DSU, sparse table, PBDS wrappers, hashmap
-- `graph/`: shortest paths, SCC, lowlink, MST, flows, matching, LCA, HLD, tree utilities
-- `string/`: Z algorithm, prefix function, rolling hash, Manacher, trie, Aho-Corasick, suffix array
-- `nt/`: sieves, CRT, modular helpers, Miller-Rabin, Pollard Rho, floor sum
-- `convolution/`: NTT convolution
-- `geometry/`: 2D point/vector primitives, intersections, convex hull, rotating calipers
-- `dp/`: LIS, Li Chao tree, divide-and-conquer DP helper, Knuth optimization helper
-- `linalg/`: Gaussian elimination, determinant/rank, XOR basis
 - `mod/`: static and dynamic modint, Barrett reduction, combinatorics
+- `ds/`: Fenwick tree, segment trees, treap, DSU, sparse table, matrix, PBDS wrappers, hashmap
+- `graph/`: LCA
+- `nt/`: linear sieve
+- `convolution/`: NTT convolution
+- `bigdec/`: fixed-precision decimal arithmetic
 - `docs/`: human-written documentation used by oj-verify
 
 ## Verification
