@@ -3,7 +3,8 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T = int64_t> struct MinAdd {
+template <typename T = int64_t> struct MinAdd
+{
         using S = T;
         using F = T;
         static S op(S a, S b) { return std::min(a, b); }

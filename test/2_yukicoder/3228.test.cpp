@@ -4,11 +4,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void solve() {
+void solve()
+{
         int64_t a, b, c, d, e, N;
         cin >> a >> b >> c >> d >> e >> N;
         using Mint = ModInt<1000000007>;
-        if (N < 2) {
+        if (N < 2)
+        {
                 Mint out = (N ? a + b : a);
                 cout << out << '\n';
                 return;
@@ -20,7 +22,8 @@ void solve() {
         cout << res[2][0] << '\n';
 }
 
-int main() {
+int main()
+{
         ios::sync_with_stdio(false);
         cin.tie(NULL);
 

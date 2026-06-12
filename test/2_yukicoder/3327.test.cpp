@@ -3,30 +3,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void solve() {
+void solve()
+{
         int N, Q;
         cin >> N >> Q;
         vector<int> A(N);
         for (auto &x : A) cin >> x;
-        struct Monoid {
+        struct Monoid
+        {
                 using value_type = int;
                 static int e() { return 0; }
                 static int op(const int &a, const int &b) { return max(a, b); }
         };
         SegTree<Monoid> seg(A);
-        while (Q--) {
+        while (Q--)
+        {
                 int c, x;
                 cin >> c >> x;
-                if (c == 1) {
+                if (c == 1)
+                {
                         int pos = seg.find_first(0, N - 1, [&](const int &val) { return val > x; });
-                        if (pos != -1) {
+                        if (pos != -1)
+                        {
                                 seg.update(pos, -1);
                                 pos++;
                         }
                         cout << pos << '\n';
-                } else {
+                }
+                else
+                {
                         int pos = seg.find_last(0, N - 1, [&](const int &val) { return val > x; });
-                        if (pos != -1) {
+                        if (pos != -1)
+                        {
                                 seg.update(pos, -1);
                                 pos++;
                         }
@@ -35,7 +43,8 @@ void solve() {
         }
 }
 
-int main() {
+int main()
+{
         ios::sync_with_stdio(false);
         cin.tie(NULL);
 

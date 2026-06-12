@@ -7,5 +7,8 @@ Static range query on an idempotent monoid. Preprocessing $O(n \log n)$, query $
 
 ### Usage
 
-- `SparseTable<Monoid>(vector<T> A)`: build from array $A$
-- `query(l, r)`: $a_l \cdot a_{l+1} \cdot \ldots \cdot a_r$
+- `SparseTable<Monoid> st(A)`: build from array `A`
+- `init(A)`: rebuild from array `A`
+- `query(l, r)`: product on inclusive range `[l, r]`
+
+Example: `SparseTable<MinMonoid<int>> st(a)`.

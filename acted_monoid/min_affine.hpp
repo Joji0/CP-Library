@@ -3,9 +3,11 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T = int64_t> struct MinAffine {
+template <typename T = int64_t> struct MinAffine
+{
         using S = T;
-        struct F {
+        struct F
+        {
                 T a, b;
         };
         static S op(S a, S b) { return std::min(a, b); }

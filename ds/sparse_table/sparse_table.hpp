@@ -1,24 +1,38 @@
 #pragma once
-
 #include <algorithm>
+#include <cassert>
 #include <vector>
-template <class T> struct SparseTable {
-        int N = 0, LOG = 25;
+
+template <typename Monoid> struct SparseTable
+{
+        using T = typename Monoid::value_type;
+        int n, LOG;
+        std::vector<int> lg;
         std::vector<std::vector<T>> st;
-        T f(const T &a, const T &b) const { return std::min(a, b); }
-        void init(const std::vector<T> &A) {
-                N = (int)A.size();
-                st.assign(LOG, vector<T>(N));
-                for (int j = 0; j < N; j++) st[0][j] = A[j];
-                for (int i = 1; i < LOG; i++) {
-                        for (int j = 0; j + (1LL << i) - 1 < N; j++) {
-                                st[i][j] = f(st[i - 1][j], st[i - 1][j + (1LL << (i - 1))]);
+        SparseTable() : n(0), LOG(0) {}
+        SparseTable(const std::vector<T> &A) { init(A); }
+        void init(const std::vector<T> &A)
+        {
+                n = (int)A.size();
+                LOG = 1;
+                while ((1 << LOG) <= n) LOG++;
+                lg.assign(n + 1, 0);
+                for (int i = 2; i <= n; i++) lg[i] = lg[i >> 1] + 1;
+                st.assign(LOG, std::vector<T>(n, Monoid::e()));
+                if (n == 0) return;
+                st[0] = A;
+                for (int i = 1; i < LOG; i++)
+                {
+                        for (int j = 0; j + (1 << i) <= n; j++)
+                        {
+                                st[i][j] = Monoid::op(st[i - 1][j], st[i - 1][j + (1 << (i - 1))]);
                         }
                 }
         }
-        T query(int L, int R) const {
-                int len = R - L + 1;
-                int lg = (int)log2(len);
-                return f(st[lg][L], st[lg][R - (1 << lg) + 1]);
+        T query(int l, int r) const
+        {
+                assert(0 <= l && l <= r && r < n);
+                int k = lg[r - l + 1];
+                return Monoid::op(st[k][l], st[k][r - (1 << k) + 1]);
         }
 };
