@@ -69,7 +69,7 @@ struct HashMap {
                 size++;
                 return table[idx].val;
         }
-        V get(K key, V default_val = -1) {
+        V get(K key, V default_val = V{}) {
                 uint32_t idx = get_index(key);
                 while (table[idx].exists) {
                         if (table[idx].key == key) {

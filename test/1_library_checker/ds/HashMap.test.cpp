@@ -1,5 +1,5 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/associative_array"
-#include "ds/hashmap.hpp"
+#include "ds/HashMap.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
