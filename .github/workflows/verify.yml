@@ -49,11 +49,11 @@ jobs:
       run: |
         cd .verify-helper/markdown
         rm -f Gemfile Gemfile.lock
-        cp -f ../docs/_config.yml ./_config.yml
-        cp -f ../docs/_layouts/default.html ./_layouts/default.html
+        cp -f ../theme/_config.yml ./_config.yml
+        cp -f ../theme/_layouts/default.html ./_layouts/default.html
         rm -f ./assets/css/style.scss
-        cp -f ../docs/assets/css/style.css ./assets/css/style.css
-        cp -f ../docs/assets/css/syntax.css ./assets/css/syntax.css
+        cp -f ../theme/assets/css/style.css ./assets/css/style.css
+        cp -f ../theme/assets/css/syntax.css ./assets/css/syntax.css
         JEKYLL_ENV=production jekyll build --destination _site
         touch _site/.nojekyll
 

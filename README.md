@@ -13,7 +13,6 @@ This README tracks the committed library surface. Experimental or learning-in-pr
 - `nt/`: linear sieve
 - `convolution/`: NTT convolution
 - `bigdec/`: fixed-precision decimal arithmetic
-- `docs/`: human-written documentation used by oj-verify
 
 ## Verification
 
