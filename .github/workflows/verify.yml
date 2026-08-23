@@ -43,17 +43,12 @@ jobs:
         ruby-version: '3.2'
 
     - name: Install Jekyll
-      run: gem install jekyll jekyll-theme-hacker kramdown-parser-gfm rouge jemoji
+      run: gem install jekyll jekyll-theme-minimal jekyll-github-metadata jekyll-redirect-from kramdown-parser-gfm rouge jemoji
 
     - name: Build site
       run: |
         cd .verify-helper/markdown
         rm -f Gemfile Gemfile.lock
-        cp -f ../theme/_config.yml ./_config.yml
-        cp -f ../theme/_layouts/default.html ./_layouts/default.html
-        rm -f ./assets/css/style.scss
-        cp -f ../theme/assets/css/style.css ./assets/css/style.css
-        cp -f ../theme/assets/css/syntax.css ./assets/css/syntax.css
         JEKYLL_ENV=production jekyll build --destination _site
         touch _site/.nojekyll
 
