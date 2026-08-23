@@ -1,3 +1,10 @@
 title: CP-Library
 baseurl: /CP-Library
 url: https://joji0.github.io
+github:
+  is_project_page: true
+  repository_url: https://github.com/joji0/CP-Library
+  repository_nwo: joji0/CP-Library
+  repository_name: CP-Library
+  owner_name: joji0
+  owner_url: https://github.com/joji0
