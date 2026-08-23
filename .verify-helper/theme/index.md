@@ -1,1 +1,0 @@
-A competitive programming library in C++17. Algorithms and data structures are verified with automated testing via [online-judge-verify-helper](https://github.com/online-judge-tools/verification-helper).
