@@ -1,6 +1,6 @@
 #define PROBLEM "https://yukicoder.me/problems/no/3227"
 #include "ds/matrix.hpp"
-#include "ds/segtree/segtree.hpp"
+#include "ds/segtree/SegTree.hpp"
 #include "mod/dynamic_modint.hpp"
 #include <bits/stdc++.h>
 using namespace std;

@@ -6,12 +6,12 @@
 struct UnionFind {
         std::vector<int> parent, sz;
         int num_comps;
-        UnionFind(int n = 0) { init(n); }
-        void init(int n) {
-                parent.resize(n);
+        UnionFind(int N = 0) { init(N); }
+        void init(int N) {
+                parent.resize(N);
                 iota(parent.begin(), parent.end(), 0);
-                sz.assign(n, 1);
-                num_comps = n;
+                sz.assign(N, 1);
+                num_comps = N;
         }
         int find(int x) { return (x == parent[x] ? x : parent[x] = find(parent[x])); }
         bool same(int a, int b) { return find(a) == find(b); }
@@ -28,15 +28,14 @@ struct UnionFind {
                 return false;
         }
         std::vector<std::vector<int>> groups() {
-                int n = parent.size();
-                std::vector<std::vector<int>> res(n);
-                std::vector<int> group_size(n, 0);
-                for (int i = 0; i < n; i++) {
+                int N = parent.size();
+                std::vector<int> group_size(N, 0);
+                for (int i = 0; i < N; i++) {
                         group_size[find(i)]++;
                 }
                 std::vector<std::vector<int>> result;
-                std::vector<int> root_map(n, -1);
-                for (int i = 0; i < n; i++) {
+                std::vector<int> root_map(N, -1);
+                for (int i = 0; i < N; i++) {
                         int r = find(i);
                         if (root_map[r] == -1) {
                                 root_map[r] = result.size();

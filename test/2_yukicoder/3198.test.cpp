@@ -1,5 +1,6 @@
 #define PROBLEM "https://yukicoder.me/problems/no/3198"
-#include "ds/segtree/segtree.hpp"
+#include "ds/segtree/SegTree.hpp"
+
 #include <bits/stdc++.h>
 using namespace std;
 

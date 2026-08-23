@@ -1,5 +1,5 @@
 #define PROBLEM "https://yukicoder.me/problems/no/3200"
-#include "ds/unionfind/unionfind.hpp"
+#include "ds/unionfind/UnionFind.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
