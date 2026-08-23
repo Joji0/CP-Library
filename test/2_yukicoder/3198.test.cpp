@@ -5,31 +5,25 @@ using namespace std;
 
 const int INF = 1 << 30, MAXN = 200005;
 
-void solve()
-{
+void solve() {
         int active = 0;
         int Q;
         cin >> Q;
-        struct Monoid
-        {
+        struct Monoid {
                 using value_type = int;
                 static int e() { return -INF; }
                 static int op(const int &a, const int &b) { return max(a, b); }
         };
         SegTree<Monoid> seg(MAXN);
-        while (Q--)
-        {
+        while (Q--) {
                 int t;
                 cin >> t;
-                if (t == 1)
-                {
+                if (t == 1) {
                         int x;
                         cin >> x;
                         seg.update(active, x);
                         active++;
-                }
-                else
-                {
+                } else {
                         int k;
                         cin >> k;
                         cout << seg.query(active - k, active) << '\n';
@@ -37,8 +31,7 @@ void solve()
         }
 }
 
-int main()
-{
+int main() {
         ios::sync_with_stdio(false);
         cin.tie(NULL);
 

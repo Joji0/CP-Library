@@ -3,13 +3,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void solve()
-{
+void solve() {
         int N;
         cin >> N;
         BigDec<10> ans;
-        for (int i = 0; i < N; i++)
-        {
+        for (int i = 0; i < N; i++) {
                 BigDec<10> now;
                 cin >> now;
                 ans += now;
@@ -17,8 +15,7 @@ void solve()
         cout << ans << '\n';
 }
 
-int main()
-{
+int main() {
         ios::sync_with_stdio(false);
         cin.tie(NULL);
 

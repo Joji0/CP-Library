@@ -2,10 +2,9 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T = int64_t> struct SumAssign
-{
-        struct S
-        {
+template <typename T = int64_t>
+struct SumAssign {
+        struct S {
                 T val;
                 int cnt;
         };

@@ -3,11 +3,10 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T = int64_t> struct MaxAffine
-{
+template <typename T = int64_t>
+struct MaxAffine {
         using S = T;
-        struct F
-        {
+        struct F {
                 T a, b;
         };
         static S op(S a, S b) { return std::max(a, b); }

@@ -4,8 +4,7 @@ using namespace std;
 #include "convolution/ntt.hpp"
 #include "mod/modint.hpp"
 
-int main()
-{
+int main() {
         using Mint = ModInt<998244353>;
         vector<Mint> a = {1, 2, 3};
         vector<Mint> b = {4, 5};

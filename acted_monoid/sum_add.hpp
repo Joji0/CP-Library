@@ -1,10 +1,9 @@
 #pragma once
 #include <cstdint>
 
-template <typename T = int64_t> struct SumAdd
-{
-        struct S
-        {
+template <typename T = int64_t>
+struct SumAdd {
+        struct S {
                 T val;
                 int cnt;
         };

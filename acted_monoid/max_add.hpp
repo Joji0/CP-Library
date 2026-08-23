@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T = int64_t> struct MaxAdd
-{
+template <typename T = int64_t>
+struct MaxAdd {
         using S = T;
         using F = T;
         static S op(S a, S b) { return std::max(a, b); }

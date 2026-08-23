@@ -1,15 +1,13 @@
 #pragma once
 #include <cstdint>
 
-template <typename T = int64_t> struct SumAffine
-{
-        struct S
-        {
+template <typename T = int64_t>
+struct SumAffine {
+        struct S {
                 T val;
                 int cnt;
         };
-        struct F
-        {
+        struct F {
                 T a, b;
         };
         static S op(S x, S y) { return {x.val + y.val, x.cnt + y.cnt}; }

@@ -3,8 +3,7 @@
 using namespace std;
 #include "ds/fenwick/fenwick.hpp"
 
-int main()
-{
+int main() {
         Fenwick<int64_t> fw(5);
         fw.add(0, 1);
         fw.add(2, 3);

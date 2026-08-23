@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <limits>
 
-template <typename T = int64_t> struct MinAssign
-{
+template <typename T = int64_t>
+struct MinAssign {
         using S = T;
         using F = T;
         static constexpr F NONE = std::numeric_limits<T>::max();
