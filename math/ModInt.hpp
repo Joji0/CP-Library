@@ -35,14 +35,15 @@ private:
                 if (x < 0) x += Mod;
                 return (uint32_t)x;
         }
+        static constexpr uint32_t mod_reduce(int64_t v) {
+                int64_t x = v % (int64_t)Mod;
+                if (x < 0) x += Mod;
+                return (uint32_t)x;
+        }
 public:
         constexpr StaticModInt() : val(0) {}
         template <class U, std::enable_if_t<std::is_integral_v<U> && std::is_signed_v<U>, int> = 0>
-        constexpr StaticModInt(U v) {
-                int64_t x = (int64_t)(v % (int64_t)Mod);
-                if (x < 0) x += Mod;
-                val = (uint32_t)x;
-        }
+        constexpr StaticModInt(U v) : val(mod_reduce((int64_t)v)) {}
         template <class U, std::enable_if_t<std::is_integral_v<U> && std::is_unsigned_v<U>, int> = 0>
         constexpr StaticModInt(U v) : val((uint32_t)(v % Mod)) {}
         constexpr uint32_t get() const { return val; }
