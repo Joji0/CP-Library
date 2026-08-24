@@ -4,10 +4,20 @@
 #include "graph/Graph.hpp"
 
 template <typename T = int>
-struct LCA {
+class LCA {
 	int n, LOG;
 	std::vector<std::vector<int>> up;
 	std::vector<int> depth;
+	void dfs(const Graph<T> &G, int v, int p, int d) {
+                depth[v] = d;
+		up[v][0] = p;
+		for (int u : G[v]) {
+                        if (u != p) {
+                                dfs(G, u, v, d + 1);
+                        }
+		}
+	}
+public:
         LCA(const Graph<T>& G, int root = 0) {
                 n = G.size();
                 LOG = 0;
@@ -21,15 +31,6 @@ struct LCA {
                         }
                 }
         }
-	void dfs(const Graph<T> &G, int v, int p, int d) {
-                depth[v] = d;
-		up[v][0] = p;
-		for (int u : G[v]) {
-                        if (u != p) {
-                                dfs(G, u, v, d + 1);
-                        }
-		}
-	}
 	int lift(int v, int k) const {
 		for (int j = LOG - 1; j >= 0; j--) {
 			if (k & (1 << j)) v = up[v][j];

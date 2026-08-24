@@ -2,7 +2,7 @@
 #include "graph/Graph.hpp"
 
 template <typename T = int>
-struct HLD {
+class HLD {
         int n;
         std::vector<int> parent, depth, sub, heavy, head, in, out;
         int timer;
@@ -46,6 +46,7 @@ struct HLD {
                 }
                 out[v] = timer;
         }
+public:
         int lca(int u, int v) const {
                 while (head[u] != head[v]) {
                         if (depth[head[u]] < depth[head[v]]) std::swap(u, v);
