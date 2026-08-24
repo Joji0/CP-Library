@@ -1,5 +1,5 @@
 #define PROBLEM "https://yukicoder.me/problems/no/81"
-#include "bigdec/bigdec.hpp"
+#include "other/bigdec/BigDec.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
