@@ -5,18 +5,18 @@
 
 template <typename T = int>
 struct LCA {
-	int N, LOG;
+	int n, LOG;
 	std::vector<std::vector<int>> up;
 	std::vector<int> depth;
         LCA(const Graph<T>& G, int root = 0) {
-                N = G.size();
+                n = G.size();
                 LOG = 0;
-                while ((1 << LOG) <= N) LOG++;
-                depth.assign(N, 0);
-                up.assign(N, std::vector<int>(LOG, 0));
+                while ((1 << LOG) <= n) LOG++;
+                depth.assign(n, 0);
+                up.assign(n, std::vector<int>(LOG, 0));
                 dfs(G, root, root, 0);
                 for (int i = 1; i < LOG; i++) {
-                        for (int v = 0; v < N; v++) {
+                        for (int v = 0; v < n; v++) {
                                 up[v][i] = up[up[v][i - 1]][i - 1];
                         }
                 }

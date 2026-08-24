@@ -6,7 +6,7 @@
 template <typename Monoid>
 class SegTree {
         using T = typename Monoid::value_type;
-        int N;
+        int n;
         std::vector<T> t;
         void build(const std::vector<T> &A, int v, int tl, int tr) {
                 if (tl == tr) {
@@ -93,38 +93,38 @@ class SegTree {
                 return find_last_dfs(v * 2, tl, tm, l, std::min(r, tm), check);
         }
 public:
-        SegTree() : N(0) {}
-        SegTree(int N) : N(N) { t.resize(4 * N, Monoid::e()); }
-        SegTree(const std::vector<T> &A) : N((int)A.size()) {
-                t.resize(4 * N, Monoid::e());
-                build(A, 1, 0, N - 1);
+        SegTree() : n(0) {}
+        SegTree(int n) : n(n) { t.resize(4 * n, Monoid::e()); }
+        SegTree(const std::vector<T> &A) : n((int)A.size()) {
+                t.resize(4 * n, Monoid::e());
+                build(A, 1, 0, n - 1);
         }
-        void update(int pos, const T &new_val) { update(1, 0, N - 1, pos, new_val); }
-        T query(int l, int r) const { return query(1, 0, N - 1, l, r); }
+        void update(int pos, const T &new_val) { update(1, 0, n - 1, pos, new_val); }
+        T query(int l, int r) const { return query(1, 0, n - 1, l, r); }
         T get(int pos) const { return query(pos, pos); }
         template <class Pred>
         int max_right(int l, Pred pred) const {
-                assert(0 <= l && l <= N);
+                assert(0 <= l && l <= n);
                 assert(pred(Monoid::e()));
                 T acc = Monoid::e();
-                return max_right_dfs(1, 0, N - 1, l, pred, acc);
+                return max_right_dfs(1, 0, n - 1, l, pred, acc);
         }
         template <class Pred>
         int min_left(int r, Pred pred) const {
-                assert(0 <= r && r <= N);
+                assert(0 <= r && r <= n);
                 assert(pred(Monoid::e()));
                 T acc = Monoid::e();
-                int res = min_left_dfs(1, 0, N - 1, r, pred, acc);
+                int res = min_left_dfs(1, 0, n - 1, r, pred, acc);
                 return res < 0 ? 0 : res;
         }
         template <class Pred>
         int find_first(int l, int r, Pred check) const {
-                assert(0 <= l && l <= r && r < N);
-                return find_first_dfs(1, 0, N - 1, l, r, check);
+                assert(0 <= l && l <= r && r < n);
+                return find_first_dfs(1, 0, n - 1, l, r, check);
         }
         template <class Pred>
         int find_last(int l, int r, Pred check) const {
-                assert(0 <= l && l <= r && r < N);
-                return find_last_dfs(1, 0, N - 1, l, r, check);
+                assert(0 <= l && l <= r && r < n);
+                return find_last_dfs(1, 0, n - 1, l, r, check);
         }
 };

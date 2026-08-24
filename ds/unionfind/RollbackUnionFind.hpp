@@ -4,15 +4,15 @@
 #include <vector>
 
 struct RollbackUnionFind {
-        int N;
+        int n;
         std::vector<int> psiz;
         struct History {
                 int u, v;
                 int size_u, parent_v;
         };
         std::vector<History> history;
-        RollbackUnionFind() : N(0) {}
-        RollbackUnionFind(int N) : N(N) { psiz.assign(N, -1); }
+        RollbackUnionFind() : n(0) {}
+        RollbackUnionFind(int n) : n(n) { psiz.assign(n, -1); }
         int find(int i) const {
                 while (psiz[i] >= 0) {
                         i = psiz[i];

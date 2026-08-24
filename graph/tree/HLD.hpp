@@ -3,18 +3,18 @@
 
 template <typename T = int>
 struct HLD {
-        int N;
+        int n;
         std::vector<int> parent, depth, sub, heavy, head, in, out;
         int timer;
         HLD(const Graph<T>& G, int root = 0) {
-                N = G.size();
-                parent.assign(N, -1);
-                depth.assign(N, 0);
-                sub.assign(N, 0);
-                heavy.assign(N, -1);
-                head.assign(N, 0);
-                in.assign(N, 0);
-                out.assign(N, 0);
+                n = G.size();
+                parent.assign(n, -1);
+                depth.assign(n, 0);
+                sub.assign(n, 0);
+                heavy.assign(n, -1);
+                head.assign(n, 0);
+                in.assign(n, 0);
+                out.assign(n, 0);
                 timer = 0;
                 dfs_sz(G, root, -1, 0);
                 dfs_hld(G, root, -1, root);
