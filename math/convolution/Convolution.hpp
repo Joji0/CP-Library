@@ -117,6 +117,7 @@ std::vector<T> convolution_naive(const std::vector<T>& a, const std::vector<T>& 
 template <class T>
 std::vector<T> convolution_pow2(std::vector<T> a) {
         int n = (int)a.size() * 2 - 1;
+        if (n <= 1) return convolution_naive(a, a);
         int lg = msb(n - 1) + 1;
         if (n - (1 << (lg - 1)) <= 5) {
                 --lg;
@@ -144,6 +145,7 @@ std::vector<T> convolution_pow2(std::vector<T> a) {
 template <class T>
 std::vector<T> convolution(std::vector<T> a, std::vector<T> b) {
         int n = (int)a.size() + (int)b.size() - 1;
+        if (n <= 1) return convolution_naive(a, b);
         int lg = ceil_log2(n);
         int m = 1 << lg;
         if (n - (1 << (lg - 1)) <= 5) {
@@ -242,6 +244,53 @@ std::vector<int64_t> convolution(const std::vector<int64_t>& a, const std::vecto
         std::vector<int64_t> c(c2.size());
         for (int i = 0; i < (int)c2.size(); i++) c[i] = c2[i].get();
         return c;
+}
+
+inline std::vector<int64_t> convolution_ll(const std::vector<int64_t>& a, const std::vector<int64_t>& b) {
+        int n = (int)a.size(), m = (int)b.size();
+        if (n == 0 || m == 0) return {};
+        static constexpr uint32_t MOD1 = 469762049;
+        static constexpr uint32_t MOD2 = 1811939329;
+        static constexpr uint32_t MOD3 = 2013265921;
+        using mint1 = StaticModInt<MOD1>;
+        using mint2 = StaticModInt<MOD2>;
+        using mint3 = StaticModInt<MOD3>;
+        std::vector<mint1> a1(n), b1(m);
+        std::vector<mint2> a2(n), b2(m);
+        std::vector<mint3> a3(n), b3(m);
+        for (int i = 0; i < n; i++) {
+                int64_t v = a[i] % MOD1; if (v < 0) v += MOD1; a1[i] = v;
+                v = a[i] % MOD2; if (v < 0) v += MOD2; a2[i] = v;
+                v = a[i] % MOD3; if (v < 0) v += MOD3; a3[i] = v;
+        }
+        for (int i = 0; i < m; i++) {
+                int64_t v = b[i] % MOD1; if (v < 0) v += MOD1; b1[i] = v;
+                v = b[i] % MOD2; if (v < 0) v += MOD2; b2[i] = v;
+                v = b[i] % MOD3; if (v < 0) v += MOD3; b3[i] = v;
+        }
+        auto c1 = internal::convolution(a1, b1);
+        auto c2 = internal::convolution(a2, b2);
+        auto c3 = internal::convolution(a3, b3);
+        static constexpr uint32_t INV1_2 = mint2(MOD1).inv().get();
+        static constexpr uint32_t INV1_3 = mint3(MOD1).inv().get();
+        static constexpr uint32_t INV2_3 = mint3(MOD2).inv().get();
+        std::vector<int64_t> res(n + m - 1);
+        for (int i = 0; i < n + m - 1; i++) {
+                int64_t t1 = c1[i].get();
+                int64_t t2 = c2[i].get() - t1;
+                t2 %= MOD2;
+                if (t2 < 0) t2 += MOD2;
+                t2 = (t2 * INV1_2) % MOD2;
+                int64_t t3 = c3[i].get() - t1;
+                t3 %= MOD3;
+                if (t3 < 0) t3 += MOD3;
+                t3 = (t3 * INV1_3) % MOD3;
+                t3 = (t3 - t2) % MOD3;
+                if (t3 < 0) t3 += MOD3;
+                t3 = (t3 * INV2_3) % MOD3;
+                res[i] = t1 + t2 * MOD1 + t3 * (int64_t)MOD1 * MOD2;
+        }
+        return res;
 }
 
 template <class T>

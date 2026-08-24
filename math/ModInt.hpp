@@ -32,6 +32,7 @@ private:
                         x = u;
                         u = tmp;
                 }
+                if (x < 0) x += Mod;
                 return (uint32_t)x;
         }
 public:
