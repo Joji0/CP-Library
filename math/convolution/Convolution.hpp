@@ -184,6 +184,9 @@ template <uint32_t p>
 std::vector<StaticModInt<p>> convolution_for_any_mod(const std::vector<StaticModInt<p>>& a, const std::vector<StaticModInt<p>>& b);
 
 template <uint32_t p>
+std::vector<StaticModInt<p>> convolution_large(const std::vector<StaticModInt<p>>& a, const std::vector<StaticModInt<p>>& b);
+
+template <uint32_t p>
 std::vector<StaticModInt<p>> convolution(const std::vector<StaticModInt<p>>& a, const std::vector<StaticModInt<p>>& b) {
         int n = (int)a.size(), m = (int)b.size();
         if (n == 0 || m == 0) return {};
@@ -191,6 +194,9 @@ std::vector<StaticModInt<p>> convolution(const std::vector<StaticModInt<p>>& a, 
         if (n + m - 1 <= (int)((1 - p) & (p - 1))) {
                 if (n == m && a == b) return internal::convolution_pow2(a);
                 return internal::convolution(a, b);
+        }
+        if constexpr (is_ntt_friendly<p>::value) {
+                return convolution_large<p>(a, b);
         }
         return convolution_for_any_mod(a, b);
 }
@@ -229,7 +235,53 @@ std::vector<StaticModInt<p>> convolution_for_any_mod(const std::vector<StaticMod
                 if (t2 < 0) t2 += MOD2;
                 int64_t t3 = ((c3[i].get() - t1 + MOD3) * INV1_3 % MOD3 - t2 + MOD3) * INV2_3 % MOD3;
                 if (t3 < 0) t3 += MOD3;
-                res[i] = StaticModInt<p>(t1 + (t2 + t3 * MOD2) % p * MOD1);
+                res[i] = StaticModInt<p>(t1 + (t2 + t3 * MOD2) % p * (MOD1 % p));
+        }
+        return res;
+}
+
+template <uint32_t p>
+std::vector<StaticModInt<p>> convolution_large(const std::vector<StaticModInt<p>>& a, const std::vector<StaticModInt<p>>& b) {
+        int n = (int)a.size(), m = (int)b.size();
+        int limit = (int)((1 - p) & (p - 1));
+        int L = limit >> 1;
+        int k = (n + L - 1) / L;
+        int l = (m + L - 1) / L;
+        std::vector<std::vector<StaticModInt<p>>> A_hat(k, std::vector<StaticModInt<p>>(limit));
+        std::vector<std::vector<StaticModInt<p>>> B_hat(l, std::vector<StaticModInt<p>>(limit));
+        for (int i = 0; i < k; ++i) {
+                int start = i * L;
+                int end = std::min(n, start + L);
+                for (int j = start; j < end; ++j) {
+                        A_hat[i][j - start] = a[j];
+                }
+                internal::number_theoretic_transform(A_hat[i]);
+        }
+        for (int i = 0; i < l; ++i) {
+                int start = i * L;
+                int end = std::min(m, start + L);
+                for (int j = start; j < end; ++j) {
+                        B_hat[i][j - start] = b[j];
+                }
+                internal::number_theoretic_transform(B_hat[i]);
+        }
+        std::vector<StaticModInt<p>> res(n + m - 1);
+        for (int c = 0; c < k + l - 1; ++c) {
+                std::vector<StaticModInt<p>> C_chunk(limit);
+                for (int i = 0; i < k; ++i) {
+                        int j = c - i;
+                        if (0 <= j && j < l) {
+                                for (int x = 0; x < limit; ++x) {
+                                        C_chunk[x] += A_hat[i][x] * B_hat[j][x];
+                                }
+                        }
+                }
+                internal::inverse_number_theoretic_transform(C_chunk);
+                int start = c * L;
+                int end = std::min(n + m - 1, start + limit);
+                for (int j = start; j < end; ++j) {
+                        res[j] += C_chunk[j - start];
+                }
         }
         return res;
 }
@@ -288,7 +340,36 @@ inline std::vector<int64_t> convolution_ll(const std::vector<int64_t>& a, const 
                 t3 = (t3 - t2) % MOD3;
                 if (t3 < 0) t3 += MOD3;
                 t3 = (t3 * INV2_3) % MOD3;
-                res[i] = t1 + t2 * MOD1 + t3 * (int64_t)MOD1 * MOD2;
+                __int128_t result = t1;
+                result += (__int128_t)t2 * MOD1;
+                result += (__int128_t)t3 * MOD1 * MOD2;
+                res[i] = (int64_t)result;
+        }
+        return res;
+}
+
+// https://judge.yosupo.jp/problem/convolution_mod_2_64
+inline std::vector<uint64_t> convolution_64(const std::vector<uint64_t>& a, const std::vector<uint64_t>& b) {
+        int n = (int)a.size(), m = (int)b.size();
+        if (n == 0 || m == 0) return {};
+        std::vector<int64_t> a_lo(n), a_hi(n), b_lo(m), b_hi(m);
+        for (int i = 0; i < n; i++) {
+                a_lo[i] = a[i] & 0xFFFFFFFF;
+                a_hi[i] = a[i] >> 32;
+        }
+        for (int i = 0; i < m; i++) {
+                b_lo[i] = b[i] & 0xFFFFFFFF;
+                b_hi[i] = b[i] >> 32;
+        }
+        auto c_lolo = convolution_ll(a_lo, b_lo);
+        auto c_hilo = convolution_ll(a_hi, b_lo);
+        auto c_lohi = convolution_ll(a_lo, b_hi);
+        std::vector<uint64_t> res(n + m - 1);
+        for (int i = 0; i < n + m - 1; i++) {
+                uint64_t lolo = (uint64_t)c_lolo[i];
+                uint64_t hilo = (uint64_t)c_hilo[i];
+                uint64_t lohi = (uint64_t)c_lohi[i];
+                res[i] = lolo + (hilo << 32) + (lohi << 32);
         }
         return res;
 }
