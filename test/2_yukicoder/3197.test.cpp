@@ -1,5 +1,5 @@
 #define PROBLEM "https://yukicoder.me/problems/no/3197"
-#include "ds/hashmap.hpp"
+#include "ds/HashMap.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 
