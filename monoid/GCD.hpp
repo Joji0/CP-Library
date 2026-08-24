@@ -1,9 +1,10 @@
 #pragma once
 #include <cstdint>
+#include <numeric>
 
 template <typename T = int64_t>
-struct AddMonoid {
+struct GCD {
         using value_type = T;
         static value_type e() { return 0; }
-        static value_type op(value_type a, value_type b) { return a + b; }
+        static value_type op(value_type a, value_type b) { return std::gcd(a, b); }
 };

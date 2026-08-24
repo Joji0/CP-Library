@@ -13,22 +13,12 @@
 // static F id();
 
 template <typename ActedMonoid>
-struct LazySegTree {
+class LazySegTree {
         using S = typename ActedMonoid::S;
         using F = typename ActedMonoid::F;
-        int n;
+        int N;
         std::vector<S> t;
         std::vector<F> lazy;
-        LazySegTree() : n(0) {}
-        LazySegTree(int n) : n(n) {
-                t.resize(4 * n, ActedMonoid::e());
-                lazy.resize(4 * n, ActedMonoid::id());
-        }
-        LazySegTree(const std::vector<S> &A) : n((int)A.size()) {
-                t.resize(4 * n, ActedMonoid::e());
-                lazy.resize(4 * n, ActedMonoid::id());
-                build(A, 1, 0, n - 1);
-        }
         void build(const std::vector<S> &A, int v, int tl, int tr) {
                 if (tl == tr) {
                         t[v] = A[tl];
@@ -63,11 +53,6 @@ struct LazySegTree {
                         t[v] = ActedMonoid::op(t[v * 2], t[v * 2 + 1]);
                 }
         }
-        void update(int l, int r, const F &f) {
-                assert(0 <= l && l <= r && r < n);
-                update(1, 0, n - 1, l, r, f);
-        }
-        void update(int pos, const F &f) { update(pos, pos, f); }
         void set(int v, int tl, int tr, int pos, const S &new_val) {
                 if (tl == tr) {
                         t[v] = new_val;
@@ -82,7 +67,6 @@ struct LazySegTree {
                         t[v] = ActedMonoid::op(t[v * 2], t[v * 2 + 1]);
                 }
         }
-        void set(int pos, const S &new_val) { set(1, 0, n - 1, pos, new_val); }
         S query(int v, int tl, int tr, int l, int r) {
                 if (l > r) return ActedMonoid::e();
                 if (l == tl && r == tr) return t[v];
@@ -90,18 +74,6 @@ struct LazySegTree {
                 int tm = (tl + tr) / 2;
                 return ActedMonoid::op(query(v * 2, tl, tm, l, std::min(r, tm)),
                                        query(v * 2 + 1, tm + 1, tr, std::max(l, tm + 1), r));
-        }
-        S query(int l, int r) {
-                assert(0 <= l && l <= r && r < n);
-                return query(1, 0, n - 1, l, r);
-        }
-        S get(int pos) { return query(pos, pos); }
-        template <class Pred>
-        int max_right(int l, Pred pred) {
-                assert(0 <= l && l <= n);
-                assert(pred(ActedMonoid::e()));
-                S acc = ActedMonoid::e();
-                return max_right_dfs(1, 0, n - 1, l, pred, acc);
         }
         template <class Pred>
         int max_right_dfs(int v, int tl, int tr, int l, Pred pred, S &acc) {
@@ -121,14 +93,6 @@ struct LazySegTree {
                 return max_right_dfs(v * 2 + 1, tm + 1, tr, l, pred, acc);
         }
         template <class Pred>
-        int min_left(int r, Pred pred) {
-                assert(0 <= r && r <= n);
-                assert(pred(ActedMonoid::e()));
-                S acc = ActedMonoid::e();
-                int res = min_left_dfs(1, 0, n - 1, r, pred, acc);
-                return res < 0 ? 0 : res;
-        }
-        template <class Pred>
         int min_left_dfs(int v, int tl, int tr, int r, Pred pred, S &acc) {
                 if (tl >= r) return r;
                 if (tr < r) {
@@ -144,5 +108,42 @@ struct LazySegTree {
                 int res = min_left_dfs(v * 2 + 1, tm + 1, tr, r, pred, acc);
                 if (res >= tm + 1) return res;
                 return min_left_dfs(v * 2, tl, tm, r, pred, acc);
+        }
+public:
+        LazySegTree() : N(0) {}
+        LazySegTree(int N) : N(N) {
+                t.resize(4 * N, ActedMonoid::e());
+                lazy.resize(4 * N, ActedMonoid::id());
+        }
+        LazySegTree(const std::vector<S> &A) : N((int)A.size()) {
+                t.resize(4 * N, ActedMonoid::e());
+                lazy.resize(4 * N, ActedMonoid::id());
+                build(A, 1, 0, N - 1);
+        }
+        void update(int l, int r, const F &f) {
+                assert(0 <= l && l <= r && r < N);
+                update(1, 0, N - 1, l, r, f);
+        }
+        void update(int pos, const F &f) { update(pos, pos, f); }
+        void set(int pos, const S &new_val) { set(1, 0, N - 1, pos, new_val); }
+        S query(int l, int r) {
+                assert(0 <= l && l <= r && r < N);
+                return query(1, 0, N - 1, l, r);
+        }
+        S get(int pos) { return query(pos, pos); }
+        template <class Pred>
+        int max_right(int l, Pred pred) {
+                assert(0 <= l && l <= N);
+                assert(pred(ActedMonoid::e()));
+                S acc = ActedMonoid::e();
+                return max_right_dfs(1, 0, N - 1, l, pred, acc);
+        }
+        template <class Pred>
+        int min_left(int r, Pred pred) {
+                assert(0 <= r && r <= N);
+                assert(pred(ActedMonoid::e()));
+                S acc = ActedMonoid::e();
+                int res = min_left_dfs(1, 0, N - 1, r, pred, acc);
+                return res < 0 ? 0 : res;
         }
 };

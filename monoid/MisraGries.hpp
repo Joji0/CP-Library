@@ -4,7 +4,7 @@
 
 // https://codeforces.com/problemset/problem/2149/G
 template <int K>
-struct MisraGriesMonoid {
+struct MisraGries {
         struct Node {
                 std::array<int, K> c;
                 std::array<int, K> v;

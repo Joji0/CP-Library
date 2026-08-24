@@ -5,8 +5,7 @@
 #include <vector>
 
 template <typename K, typename V>
-struct HashMap {
-       private:
+class HashMap {
         struct Node {
                 K key;
                 V val;
