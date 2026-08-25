@@ -49,10 +49,10 @@ public:
                                         q.emplace_back(nxt);
                                 }
                         }
-                        return std::make_tuple(farthest, max_dist, parent_node, parent_edge);
+                        return std::make_tuple(farthest, max_dist, parent_node, parent_edge, dist);
                 };
-                auto [u_node, d1, p_node1, p_edge1] = bfs(0);
-                auto [v_node, max, p_node2, p_edge2] = bfs(u_node);
+                auto [u_node, d1, p_node1, p_edge1, dist1] = bfs(0);
+                auto [v_node, max, p_node2, p_edge2, dist2] = bfs(u_node);
                 diameter = max;
                 u = u_node;
                 v = v_node;
@@ -66,4 +66,17 @@ public:
                 std::reverse(path_nodes.begin(), path_nodes.end());
                 std::reverse(path_edges.begin(), path_edges.end());
         }
+        std::pair<std::vector<int>, std::vector<int>> dist_from_endpoints(const Graph<T>& G) {
+                auto dfs = [&](auto& dfs, int v, int p, std::vector<int>& d) -> void {
+                        for (int u : G[v]) {
+                                if (u == p) continue;
+                                d[u] = d[v] + 1;
+                                dfs(dfs, u, v, d);
+                        }
+                };
+                std::vector<int> dist_from_u(G.size(), 0), dist_from_v(G.size(), 0);
+                dfs(dfs, u, -1, dist_from_u);
+                dfs(dfs, v, -1, dist_from_v);
+                return {dist_from_u, dist_from_v};
+        };
 };
