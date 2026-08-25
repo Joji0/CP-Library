@@ -17,7 +17,7 @@ void solve() {
         while (Q--) {
                 int x, k;
                 cin >> x >> k;
-                cout << (mp[x] >= k ? "Yes\n" : "No\n");
+                cout << (mp.get(x) >= k ? "Yes\n" : "No\n");
         }
 }
 
