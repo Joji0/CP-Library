@@ -4,9 +4,10 @@
 #include <vector>
 
 template <typename T = int64_t>
-struct Fenwick {
+class Fenwick {
         int n;
         std::vector<T> bit;
+public:
         Fenwick(int n = 0) { init(n); }
         void init(int n) {
                 this->n = n;
@@ -43,18 +44,19 @@ struct Fenwick {
 };
 
 template <typename T = int64_t>
-struct RangeFenwick {
+class RangeFenwick {
         int n;
         Fenwick<T> bit1, bit2;
+        void add_prefix(int pos, T a, T b) {
+                bit1.add(pos, a);
+                bit2.add(pos, b);
+        }
+public:
         RangeFenwick(int n = 0) { init(n); }
         void init(int n) {
                 this->n = n;
                 bit1.init(n + 1);
                 bit2.init(n + 1);
-        }
-        void add_prefix(int pos, T a, T b) {
-                bit1.add(pos, a);
-                bit2.add(pos, b);
         }
         void range_add(int l, int r, T delta) {
                 if (l > r) return;

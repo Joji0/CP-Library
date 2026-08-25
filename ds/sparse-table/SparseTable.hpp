@@ -4,11 +4,12 @@
 #include <vector>
 
 template <typename Monoid>
-struct SparseTable {
+class SparseTable {
         using T = typename Monoid::value_type;
         int n, LOG;
         std::vector<int> lg;
         std::vector<std::vector<T>> st;
+public:
         SparseTable() : n(0), LOG(0) {}
         SparseTable(const std::vector<T> &A) { init(A); }
         void init(const std::vector<T> &A) {

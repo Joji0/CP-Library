@@ -40,8 +40,7 @@ class HashMap {
                         }
                 }
         }
-
-       public:
+public:
         HashMap(uint32_t n = 1 << 20) {
                 uint32_t pw = 1;
                 while (pw < n) pw <<= 1;
