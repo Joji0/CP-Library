@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <cassert>
 #include <vector>
 #include "acted_monoid/binary_inversions_flip.hpp"
@@ -32,6 +34,7 @@
 #include "monoid/reverse_monoid.hpp"
 #include "monoid/sum_minimum_maximum.hpp"
 #include "monoid/trivial_monoid.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 template <typename ActedMonoid>
@@ -149,4 +152,5 @@ int main() {
 			assert(inversions.all_product().inversions == expected);
 		}
 	}
+	answer_library_checker_aplusb();
 }

@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <cassert>
 #include <initializer_list>
 #include <limits>
@@ -23,6 +25,7 @@
 #include "monoid/minimum.hpp"
 #include "monoid/minimum_count.hpp"
 #include "monoid/minimum_index.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 struct Equal {
@@ -97,4 +100,5 @@ int main() {
 	const double infinity = std::numeric_limits<double>::infinity();
 	assert(Minimum<double>::combine(Minimum<double>::identity(), infinity) == infinity);
 	assert(Maximum<double>::combine(Maximum<double>::identity(), -infinity) == -infinity);
+	answer_library_checker_aplusb();
 }

@@ -11,7 +11,8 @@ def main():
     args = parser.parse_args()
 
     root = Path(__file__).resolve().parents[1]
-    sources = sorted((root / "test").rglob("*.regression.cpp"))
+    tests = root / "test"
+    sources = sorted([*tests.rglob("*.regression.cpp"), *tests.rglob("*.regression.test.cpp")])
     if not sources:
         parser.error("no regression tests found")
 
@@ -25,7 +26,7 @@ def main():
                 ],
                 check=True,
             )
-            subprocess.run([str(executable)], check=True, timeout=60)
+            subprocess.run([str(executable)], stdin=subprocess.DEVNULL, check=True, timeout=60)
             print(f"PASS {source.relative_to(root)}", flush=True)
     print(f"{len(sources)} regression tests passed")
 

@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <algorithm>
 #include <cassert>
 #include <limits>
@@ -17,6 +19,7 @@
 #include "monoid/smallest_distinct_value_counts.hpp"
 #include "monoid/smallest_distinct_values.hpp"
 #include "monoid/smallest_values.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 template <typename Monoid, bool Largest, bool Distinct>
@@ -98,4 +101,5 @@ int main() {
 	smallest.update(1, 2, 3);
 	assert(largest.all_product().kth(2)->value == 2 && largest.all_product().kth(2)->count == 4);
 	assert(smallest.all_product().kth(1)->value == 2 && smallest.all_product().kth(1)->count == 4);
+	answer_library_checker_aplusb();
 }

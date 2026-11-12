@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <algorithm>
 #include <cassert>
 #include <limits>
@@ -17,6 +19,7 @@
 #include "acted_monoid/sum_assign.hpp"
 #include "data_structure/segment_tree/lazy_segment_tree.hpp"
 #include "data_structure/treap/implicit_treap.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 void boundaries() {
@@ -104,4 +107,5 @@ void mixed_updates() {
 int main() {
 	boundaries();
 	mixed_updates();
+	answer_library_checker_aplusb();
 }

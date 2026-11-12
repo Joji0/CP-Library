@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <cassert>
 #include <limits>
 #include "acted_monoid/sum_add.hpp"
@@ -9,6 +11,7 @@
 #include "monoid/least_common_multiple.hpp"
 #include "monoid/maximum_subarray_sum.hpp"
 #include "monoid/multiply.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 int main() {
 	constexpr long long low = std::numeric_limits<long long>::lowest();
@@ -41,4 +44,5 @@ int main() {
 	assert(!combined.empty && combined.sum == old_sentinel - 1 && combined.ans == -1);
 	assert(Subarray::combine(Subarray::identity(), Subarray::from_val(low)).ans == low);
 	assert(Subarray::identity().empty);
+	answer_library_checker_aplusb();
 }

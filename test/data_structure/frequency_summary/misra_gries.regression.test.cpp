@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <algorithm>
 #include <cassert>
 #include <map>
@@ -7,6 +9,7 @@
 #include "data_structure/frequency_summary/verify_heavy_hitters.hpp"
 #include "monoid/dynamic_misra_gries.hpp"
 #include "monoid/misra_gries.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 template <typename Summary, typename MakeNode>
@@ -54,4 +57,5 @@ int main() {
 	for (int capacity = 0; capacity <= 7; ++capacity) {
 		check<Dynamic>(capacity, [=](int key, long long count) { return Dynamic::Node(key, capacity, count); });
 	}
+	answer_library_checker_aplusb();
 }
