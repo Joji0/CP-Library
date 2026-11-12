@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <limits>
 #include <random>
 #include <vector>
 #include "data_structure/fenwick_tree/two_dimensional_fenwick_tree.hpp"
@@ -14,6 +15,16 @@ int main() {
 	TwoDimensionalFenwickTree<long long> zero_width(std::vector<std::vector<long long>>{{}, {999}});
 	assert(zero_width.empty() && zero_width.height() == 1 && zero_width.width() == 0);
 	assert(empty.query(1, 1, 0, 0) == 0);
+
+	constexpr long long low = std::numeric_limits<long long>::lowest();
+	constexpr long long high = std::numeric_limits<long long>::max();
+	TwoDimensionalFenwickTree<long long> extreme({{}, {999, high, high}, {999, low, 0}});
+	assert(extreme.get(2, 1) == low && extreme.get(1, 2) == high);
+	assert(extreme.rectangle_sum(1, 1, 2, 1) == -1 && extreme.all_sum() == high - 1);
+	extreme.set(1, 2, low);
+	assert(extreme.get(1, 2) == low && extreme.prefix_sum(1, 2) == -1);
+	extreme.set(1, 2, high);
+	assert(extreme.get(1, 2) == high && extreme.all_sum() == high - 1);
 
 	std::mt19937 random(74819);
 	for (int height = 1; height <= 6; ++height) {
