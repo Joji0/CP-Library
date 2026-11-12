@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <array>
 #include <cassert>
 #include <random>
@@ -13,6 +15,7 @@
 #include "data_structure/union_find/rollback_potential_union_find.hpp"
 #include "data_structure/union_find/union_find.hpp"
 #include "monoid/add.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 struct Permutation {
@@ -132,4 +135,5 @@ void check_component_operations() {
 int main() {
 	check_versions();
 	check_component_operations();
+	answer_library_checker_aplusb();
 }

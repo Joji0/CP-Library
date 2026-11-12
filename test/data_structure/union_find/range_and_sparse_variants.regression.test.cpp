@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <cassert>
 #include <limits>
 #include <random>
@@ -9,6 +11,7 @@
 #include "data_structure/union_find/range_parallel_union_find.hpp"
 #include "data_structure/union_find/successor_union_find.hpp"
 #include "data_structure/union_find/union_find.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 int main() {
 	constexpr auto low = std::numeric_limits<long long>::lowest();
@@ -59,4 +62,5 @@ int main() {
 	for (int vertex = 2; vertex <= chain; ++vertex) assert(reconstruction.join(vertex - 1, vertex) > chain);
 	assert(reconstruction.find(1) == 2 * chain - 1);
 	assert(reconstruction.find(chain) == reconstruction.find(1));
+	answer_library_checker_aplusb();
 }

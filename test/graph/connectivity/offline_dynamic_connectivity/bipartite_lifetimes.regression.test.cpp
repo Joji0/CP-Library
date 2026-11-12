@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <cassert>
 #include <random>
 #include <utility>
@@ -6,6 +8,7 @@
 #include "data_structure/union_find/rollback_bipartite_union_find.hpp"
 #include "data_structure/union_find/rollback_union_find.hpp"
 #include "graph/connectivity/offline_dynamic_connectivity.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 struct Edge {
@@ -103,4 +106,5 @@ int main() {
 		});
 		assert(connectivity.snapshot() == 0);
 	}
+	answer_library_checker_aplusb();
 }

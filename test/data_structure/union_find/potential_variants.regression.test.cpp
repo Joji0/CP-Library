@@ -1,3 +1,5 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+
 #include <cassert>
 #include <limits>
 #include <random>
@@ -12,6 +14,7 @@
 #include "data_structure/union_find/weighted_constraint_union_find.hpp"
 #include "data_structure/union_find/weighted_union_find.hpp"
 #include "data_structure/union_find/xor_union_find.hpp"
+#include "test/detail/library_checker_aplusb.hpp"
 
 namespace {
 void check_potentials() {
@@ -124,4 +127,5 @@ void check_constraint_policies() {
 int main() {
 	check_potentials();
 	check_constraint_policies();
+	answer_library_checker_aplusb();
 }
