@@ -1,0 +1,5 @@
+#pragma once
+#include "acted_monoid/detail/binary_run_aggregate.hpp"
+#include "acted_monoid/detail/binary_action.hpp"
+
+using BinaryRunsFlip = acted_monoid_detail::BinaryAction<acted_monoid_detail::BinaryRunAggregate, acted_monoid_detail::BinaryUpdate::flip>;
