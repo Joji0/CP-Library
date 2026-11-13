@@ -1,3 +1,3 @@
 # CP-Library
 
-Competitive programming library in C++17.
+Competitive programming library in GNU C++20.

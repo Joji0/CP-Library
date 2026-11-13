@@ -5,6 +5,7 @@
 #include "acted_monoid/sum_add.hpp"
 #include "acted_monoid/sum_affine.hpp"
 #include "acted_monoid/sum_assign.hpp"
+#include "data_structure/segment_tree/segment_tree.hpp"
 #include "monoid/add.hpp"
 #include "monoid/affine.hpp"
 #include "monoid/greatest_common_divisor.hpp"
@@ -26,6 +27,13 @@ int main() {
 	assert(GreatestCommonDivisor<unsigned long long>::combine(1ULL << 63, 0) == (1ULL << 63));
 	assert(LeastCommonMultiple<long long>::combine(-21, 6) == 42);
 	assert(LeastCommonMultiple<long long>::combine(low, 0) == 0);
+	using Divisor = GreatestCommonDivisor<long long>;
+	using Multiple = LeastCommonMultiple<long long>;
+	SegmentTree<Divisor> divisor({0, Divisor::make_leaf(-6)});
+	SegmentTree<Multiple> multiple({0, Multiple::make_leaf(-6)});
+	assert(divisor.get(1) == 6 && divisor.all_product() == 6);
+	assert(multiple.get(1) == 6 && multiple.all_product() == 6);
+	assert(GreatestCommonDivisor<unsigned long long>::make_leaf(unsigned_high) == unsigned_high);
 	assert(LeastCommonMultiple<unsigned long long>::combine(unsigned_high, 1) == unsigned_high);
 	assert(Affine<long long>::combine({2, -high}, {1, high}).b == high);
 

@@ -1,9 +1,9 @@
 #pragma once
 #include <cstdint>
+#include <cstdlib>
 #include <iostream>
 #include <type_traits>
 #include <limits>
-#include <numeric>
 #include <optional>
 #include <cassert>
 
@@ -21,7 +21,7 @@ class StaticModularInteger {
 	static constexpr uint32_t inv998244353[] = {
 	    0, 1, 499122177, 332748118, 748683265, 598946612,
 	    166374059, 855638017, 873463809, 443664157, 299473306};
-	static constexpr uint32_t modular_inverse(long long a) {
+	static constexpr std::optional<uint32_t> modular_inverse(long long a) {
 		long long b = Mod, x = 1, u = 0, t = 0, tmp = 0;
 		while (b) {
 			t = a / b;
@@ -32,6 +32,7 @@ class StaticModularInteger {
 			x = u;
 			u = tmp;
 		}
+		if (a != 1) return std::nullopt;
 		if (x < 0) x += Mod;
 		return (uint32_t)x;
 	}
@@ -54,17 +55,22 @@ class StaticModularInteger {
 		res.val = v;
 		return res;
 	}
+	// Inversion requires a unit. Use try_inverse() when invertibility is unknown.
 	constexpr StaticModularInteger inverse() const {
+		auto result = try_inverse();
+		if (!result) std::abort();
+		return *result;
+	}
+	constexpr std::optional<StaticModularInteger> try_inverse() const {
+		if (val == 0) return std::nullopt;
 		if constexpr (Mod == 1000000007) {
 			if (val <= 10) return raw(inv1000000007[val]);
 		} else if constexpr (Mod == 998244353) {
 			if (val <= 10) return raw(inv998244353[val]);
 		}
-		return raw(modular_inverse(val));
-	}
-	constexpr std::optional<StaticModularInteger> try_inverse() const {
-		if (val == 0 || std::gcd(val, Mod) != 1) return std::nullopt;
-		return inverse();
+		const auto result = modular_inverse(val);
+		if (!result) return std::nullopt;
+		return raw(*result);
 	}
 	constexpr StaticModularInteger& operator++() {
 		if (++val == Mod) val = 0;
@@ -111,14 +117,22 @@ class StaticModularInteger {
 	constexpr StaticModularInteger operator-() const { return StaticModularInteger() - *this; }
 	friend constexpr bool operator==(const StaticModularInteger& lhs, const StaticModularInteger& rhs) { return lhs.val == rhs.val; }
 	friend constexpr bool operator!=(const StaticModularInteger& lhs, const StaticModularInteger& rhs) { return lhs.val != rhs.val; }
-	constexpr StaticModularInteger power(long long a) const {
-		StaticModularInteger v = *this, res = 1;
-		while (a) {
-			if (a & 1) res *= v;
-			a >>= 1;
-			v *= v;
+	// Negative exponents use the multiplicative inverse.
+	constexpr StaticModularInteger power(long long exponent) const {
+		const auto magnitude = static_cast<unsigned long long>(exponent);
+		if (exponent < 0) return inverse().power(0ULL - magnitude);
+		return power(magnitude);
+	}
+	template <typename Unsigned>
+		requires(std::is_integral_v<Unsigned> && std::is_unsigned_v<Unsigned>)
+	constexpr StaticModularInteger power(Unsigned exponent) const {
+		StaticModularInteger base = *this, result = 1;
+		while (exponent != 0) {
+			if (exponent & 1) result *= base;
+			exponent >>= 1;
+			base *= base;
 		}
-		return res;
+		return result;
 	}
 	friend std::ostream& operator<<(std::ostream& os, const StaticModularInteger& m) { return os << m.val; }
 	friend std::istream& operator>>(std::istream& is, StaticModularInteger& m) {

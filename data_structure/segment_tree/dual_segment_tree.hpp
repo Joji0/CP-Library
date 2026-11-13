@@ -4,7 +4,8 @@
 #include <utility>
 #include <vector>
 
-// Dual Segment Tree: Range Monoid Updates & Point Queries.
+// Range monoid updates and point queries. Use composition(later, earlier) when provided;
+// otherwise combine(later, earlier) applies earlier first and then later.
 template <typename Monoid>
 class DualSegmentTree {
 	using T = typename Monoid::value_type;
@@ -13,7 +14,11 @@ class DualSegmentTree {
 	std::vector<T> _d;
 
 	void all_apply(int k, const T &x) {
-		_d[k] = Monoid::combine(x, _d[k]);
+		if constexpr (requires { Monoid::composition(x, _d[k]); }) {
+			_d[k] = Monoid::composition(x, _d[k]);
+		} else {
+			_d[k] = Monoid::combine(x, _d[k]);
+		}
 	}
 
 	void push(int k) {
