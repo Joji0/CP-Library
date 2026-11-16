@@ -36,7 +36,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
-      run: oj-verify run
+      # The verifier returns success if its default timeout skips the remaining tests.
+      run: oj-verify run --timeout inf
 
     - name: Generate docs
       env:
