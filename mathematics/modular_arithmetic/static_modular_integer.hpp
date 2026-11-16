@@ -50,6 +50,7 @@ class StaticModularInteger {
 	constexpr StaticModularInteger(U v) : val((uint32_t)(v % Mod)) {}
 	constexpr uint32_t get() const { return val; }
 	static constexpr uint32_t get_modulus() { return Mod; }
+	// Precondition: 0 <= v < Mod. Skips modular reduction.
 	static constexpr StaticModularInteger raw(uint32_t v) {
 		StaticModularInteger res;
 		res.val = v;
@@ -137,8 +138,7 @@ class StaticModularInteger {
 	friend std::ostream& operator<<(std::ostream& os, const StaticModularInteger& m) { return os << m.val; }
 	friend std::istream& operator>>(std::istream& is, StaticModularInteger& m) {
 		long long v;
-		is >> v;
-		m = StaticModularInteger(v);
+		if (is >> v) m = StaticModularInteger(v);
 		return is;
 	}
 };

@@ -1,0 +1,24 @@
+// 我思う、故に我在り
+#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_2_64"
+#include <bits/stdc++.h>
+#include "mathematics/convolution/convolution.hpp"
+
+void solve() {
+	int N, M;
+	std::cin >> N >> M;
+	std::vector<uint64_t> A(N), B(M);
+	for (auto &x : A) std::cin >> x;
+	for (auto &x : B) std::cin >> x;
+	std::vector<uint64_t> C = unsigned_integer_convolution(A, B);
+	for (auto &x : C) std::cout << x << " ";
+	std::cout << '\n';
+}
+
+int main() {
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	int tc = 1;
+	// std::cin >> tc;
+	while (tc--) solve();
+	return 0;
+}
